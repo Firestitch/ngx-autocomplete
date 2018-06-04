@@ -1,0 +1,19 @@
+<form>
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      placeholder="Autocomplete with Label"
+      #input="ngModel"
+      [(ngModel)]="user"
+      name="user"
+      [matAutocomplete]="userAutocompleteInput">
+
+    <mat-autocomplete #userAutocompleteInput="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let item of filteredOptions | async" [value]="item">{{ item.name }}</mat-option>
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+  <mat-hint *ngIf="user.value">Selected User: {{ user.name }}, id #{{ user.value }}</mat-hint>
+</form>
