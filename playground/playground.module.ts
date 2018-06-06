@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FsExampleModule } from '@firestitch/example';
+import { FsApiModule, FsApi } from '@firestitch/api';
 
 import { FsAutocompleteModule } from '../src';
 
@@ -13,7 +14,8 @@ import { AppComponent } from './app/app.component';
 import { AppMaterialModule } from './app/material.module';
 import {
   AutocompleteExampleComponent,
-  AutocompleteLabelExampleComponent
+  AutocompleteLabelExampleComponent,
+  AutocompleteChipsExampleComponent
 } from './app/components';
 
 
@@ -25,6 +27,7 @@ import {
     FormsModule,
 
     FsExampleModule,
+    FsApiModule,
 
     FsAutocompleteModule,
 
@@ -36,9 +39,11 @@ import {
     AppComponent,
 
     AutocompleteExampleComponent,
-    AutocompleteLabelExampleComponent
+    AutocompleteLabelExampleComponent,
+    AutocompleteChipsExampleComponent
   ],
   providers: [
+    FsApi
   ],
 })
 export class PlaygroundModule {

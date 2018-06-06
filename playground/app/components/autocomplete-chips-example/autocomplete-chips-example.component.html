@@ -1,0 +1,14 @@
+<fs-autocomplete-chips
+  [(ngModel)]="model"
+  [fetch]="fetch"
+  removable="true"
+  draggable="true"
+  name="autocomplete-chips">
+    <ng-template let-data="item" fs-autocomplete-chip>
+      {{ data.name }}
+    </ng-template>
+</fs-autocomplete-chips>
+
+<fieldset>
+  {{ model | json }}
+</fieldset>

@@ -1,0 +1,11 @@
+@import "~dragula/dist/dragula.css";
+
+mat-form-field {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  /deep/ .mat-input-wrapper {
+    width: 100%;
+  }
+}
+
