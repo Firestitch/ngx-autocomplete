@@ -1,7 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DragulaModule } from 'ng2-dragula';
+
 import {
   MatAutocompleteModule,
   MatChipsModule,
@@ -9,36 +9,26 @@ import {
   MatIconModule } from '@angular/material';
 
 import {
-  FsAutocompleteComponent,
-  FsAutocompleteChipsComponent
+  FsAutocompleteComponent
 } from './components';
-
-import { FsAutocompleteChipDirective, FsAutocompleteDirective } from './directives';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    DragulaModule,
     MatAutocompleteModule,
     MatChipsModule,
     MatInputModule,
     MatIconModule
   ],
   exports: [
-    FsAutocompleteComponent,
-    FsAutocompleteChipsComponent,
-    FsAutocompleteChipDirective,
-    FsAutocompleteDirective
+    FsAutocompleteComponent
   ],
   entryComponents: [
   ],
   declarations: [
-    FsAutocompleteComponent,
-    FsAutocompleteChipsComponent,
-    FsAutocompleteChipDirective,
-    FsAutocompleteDirective
+    FsAutocompleteComponent
   ],
   providers: [
   ],
