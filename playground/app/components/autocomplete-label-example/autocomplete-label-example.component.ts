@@ -5,19 +5,20 @@ import { startWith, map } from "rxjs/operators";
 
 @Component({
   selector: 'autocomplete-label-example',
+  styleUrls: ['autocomplete-label-example.component.scss'],
   templateUrl: 'autocomplete-label-example.component.html'
 })
 export class AutocompleteLabelExampleComponent implements OnInit {
 
   @ViewChild('input') input;
 
-  public user: { name: string, value: number } = { name: '', value: null };
+  public user: { name: string, value: number, avatar: string } = { name: '', value: null, avatar: '' };
 
-  private _list: { name: string, value: number }[] = [
-    { name: 'Bob', value: 1 },
-    { name: 'Ryan', value: 2 },
-    { name: 'Jane', value: 3 },
-    { name: 'Dave', value: 4 }
+  private _list: { name: string, value: number, avatar: string }[] = [
+    { name: 'Bob', value: 1, avatar: '' },
+    { name: 'Ryan', value: 2, avatar: '' },
+    { name: 'Jane', value: 3, avatar: '' },
+    { name: 'Dave', value: 4, avatar: '' }
   ];
 
   public filteredOptions: Observable<{ name: string, value: number }[]>;
@@ -25,6 +26,12 @@ export class AutocompleteLabelExampleComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+
+    this._list
+      .forEach((item) => {
+        item.avatar = 'https://randomuser.me/api/portraits/men/' + Math.floor((Math.random() * 99) + 1) + '.jpg';
+      });
+
     this.filteredOptions = this.input.valueChanges
       .pipe(
         startWith(null),

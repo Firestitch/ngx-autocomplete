@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FsExampleModule } from '@firestitch/example';
+import { FsBadgeModule } from '@firestitch/badge';
 
 import { FsAutocompleteModule } from '../src';
 
@@ -13,7 +14,7 @@ import { AppComponent } from './app/app.component';
 import { AppMaterialModule } from './app/material.module';
 import {
   AutocompleteExampleComponent,
-  AutocompleteLabelExampleComponent
+  AutocompleteLabelExampleComponent,
 } from './app/components';
 
 
@@ -28,6 +29,8 @@ import {
 
     FsAutocompleteModule,
 
+    FsBadgeModule,
+
     AppMaterialModule
   ],
   entryComponents: [
@@ -36,7 +39,7 @@ import {
     AppComponent,
 
     AutocompleteExampleComponent,
-    AutocompleteLabelExampleComponent
+    AutocompleteLabelExampleComponent,
   ],
   providers: [
   ],
