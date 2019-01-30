@@ -44,3 +44,4 @@ dist/*
 /docs
 /*.code-workspace
 /package
+/src/package.json

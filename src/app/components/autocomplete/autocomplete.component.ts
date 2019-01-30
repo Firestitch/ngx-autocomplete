@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'fs-autocomplete',
-  templateUrl: 'fs-autocomplete.component.html',
-  styleUrls: [ 'fs-autocomplete.component.scss' ],
+  templateUrl: 'autocomplete.component.html',
+  styleUrls: [ 'autocomplete.component.scss' ],
 })
 export class FsAutocompleteComponent {
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { startWith, map } from "rxjs/operators";
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 
 @Component({

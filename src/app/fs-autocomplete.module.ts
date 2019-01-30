@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -8,9 +8,7 @@ import {
   MatInputModule,
   MatIconModule } from '@angular/material';
 
-import {
-  FsAutocompleteComponent
-} from './components';
+import { FsAutocompleteComponent } from './components/autocomplete/autocomplete.component';
 
 
 @NgModule({
@@ -20,7 +18,7 @@ import {
     MatAutocompleteModule,
     MatChipsModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
   ],
   exports: [
     FsAutocompleteComponent
@@ -34,9 +32,9 @@ import {
   ],
 })
 export class FsAutocompleteModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: FsAutocompleteModule,
-    };
-  }
+  // static forRoot(): ModuleWithProviders {
+  //   return {
+  //     ngModule: FsAutocompleteModule,
+  //   };
+  // }
 }
