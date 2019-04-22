@@ -1,18 +1,23 @@
-<form>
-  <mat-form-field>
-    <input
-      matInput
-      type="text"
-      #input="ngModel"
-      [(ngModel)]="user"
-      name="user"
-      [matAutocomplete]="userAutocompleteInput">
+<form fsForm>
 
-    <mat-autocomplete #userAutocompleteInput="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let item of filteredOptions | async" [value]="item">{{ item.name }}</mat-option>
-    </mat-autocomplete>
+  <fs-autocomplete
+    [fetch]="fetch"
+    [displayWith]="displayWith"
+    [(ngModel)]="model"
+    placeholder="Autocomplete"
+    (ngModelChange)="modelChange($event)"
+    [required]="true"
+    name="model">
+    <ng-template fsAutocompleteTemplate let-data="data">
+      <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+        <fs-badge size="30" [image]="data.image"></fs-badge>
+        <span>{{data.name}}</span>
+      </div>
+    </ng-template>
+  </fs-autocomplete>
 
-  </mat-form-field>
-
-  <mat-hint *ngIf="user.value">Selected User: {{ user.name }}, id #{{ user.value }}</mat-hint>
+<fieldset *ngIf="model">
+  <legend>Selected</legend>
+  {{ model | json }}
+</fieldset>
 </form>

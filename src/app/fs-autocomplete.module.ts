@@ -9,6 +9,7 @@ import {
   MatIconModule } from '@angular/material';
 
 import { FsAutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { FsAutocompleteTemplateDirective } from './directives/autocomplete-template/autocomplete-template.directive';
 
 
 @NgModule({
@@ -21,12 +22,14 @@ import { FsAutocompleteComponent } from './components/autocomplete/autocomplete.
     MatIconModule,
   ],
   exports: [
-    FsAutocompleteComponent
+    FsAutocompleteComponent,
+    FsAutocompleteTemplateDirective
   ],
   entryComponents: [
   ],
   declarations: [
-    FsAutocompleteComponent
+    FsAutocompleteComponent,
+    FsAutocompleteTemplateDirective
   ],
   providers: [
   ],

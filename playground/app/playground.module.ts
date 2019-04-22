@@ -7,6 +7,7 @@ import { FsExampleModule } from '@firestitch/example';
 import { FsBadgeModule } from '@firestitch/badge';
 import { FsAutocompleteModule } from '@firestitch/autocomplete';
 import { FsMessageModule } from '@firestitch/message';
+import { FsFormModule } from '@firestitch/form';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -28,6 +29,8 @@ import {
     FsExampleModule,
     FsAutocompleteModule,
     FsBadgeModule,
+    FsFormModule,
+    FsAutocompleteModule,
 
     AppMaterialModule,
     FsExampleModule.forRoot(),

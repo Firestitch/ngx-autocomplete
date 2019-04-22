@@ -1,0 +1,32 @@
+<mat-form-field>
+  <input
+    #keywordInput
+    matInput
+    type="text"
+    [placeholder]="placeholder"
+    [(ngModel)]="keyword"
+    name="autocomplete"
+    (blur)="blur()"
+    (keyup)="keyword$.next($event)"
+    [matAutocomplete]="userAutocompleteInput">
+
+  <mat-autocomplete
+    #userAutocompleteInput="matAutocomplete"
+    (optionSelected)="optionSelected($event)"
+    [autoActiveFirstOption]="true"
+    [displayWith]="display">
+
+    <mat-option *ngFor="let data of searchData" [value]="data">
+      <ng-container
+        [ngTemplateOutlet]="template"
+        [ngTemplateOutletContext]="{ data: data }">
+      </ng-container>
+    </mat-option>
+    <mat-option *ngIf="noResults" disabled class="no-results">
+      No results found
+    </mat-option>
+  </mat-autocomplete>
+
+</mat-form-field>
+
+
