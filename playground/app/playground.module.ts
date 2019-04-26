@@ -30,7 +30,6 @@ import {
     FsAutocompleteModule,
     FsBadgeModule,
     FsFormModule,
-    FsAutocompleteModule,
 
     AppMaterialModule,
     FsExampleModule.forRoot(),

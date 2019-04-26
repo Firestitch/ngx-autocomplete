@@ -1,6 +1,6 @@
 import { Component, ContentChild, TemplateRef, HostBinding, Input, forwardRef, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { map, takeUntil, debounceTime } from 'rxjs/operators';
-import { FsAutocompleteTemplateDirective } from 'src/app/directives/autocomplete-template/autocomplete-template.directive';
+import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
 import { Subject, Observable } from 'rxjs';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
