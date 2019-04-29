@@ -1,9 +1,28 @@
-import { Component, ContentChild, TemplateRef, HostBinding, Input, forwardRef, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { map, takeUntil, debounceTime } from 'rxjs/operators';
-import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
-import { Subject, Observable } from 'rxjs';
+import {
+  Component,
+  ContentChild,
+  TemplateRef,
+  HostBinding,
+  Input,
+  forwardRef,
+  ViewChild,
+  ElementRef,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
+
+import { takeUntil, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+import {
+  FsAutocompleteTemplateDirective
+} from '../../directives/autocomplete-template/autocomplete-template.directive';
+import {
+  FsAutocompleteSuffixDirective
+} from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
+
 
 @Component({
   selector: 'fs-autocomplete',
@@ -17,19 +36,22 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
     }
   ]
 })
-export class FsAutocompleteComponent implements ControlValueAccessor, OnInit {
+export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
   @ContentChild(FsAutocompleteTemplateDirective, { read: TemplateRef })
-  template: FsAutocompleteTemplateDirective = null;
+  public template: FsAutocompleteTemplateDirective = null;
+
+  @ContentChild(FsAutocompleteSuffixDirective, { read: TemplateRef })
+  public suffix: FsAutocompleteSuffixDirective = null;
 
   @HostBinding('class.fs-form-wrapper') formWrapper = true;
 
   @ViewChild('keywordInput') keywordInput: ElementRef;
 
-  @Input() fetch: Function;
-  @Input() placeholder = '';
-  @Input() displayWith: Function;
-  @Input() ngModel;
+  @Input() public fetch: Function = null;
+  @Input() public placeholder = '';
+  @Input() public displayWith: Function = null;
+  @Input() public ngModel = null;
 
   public searchData: any[] = [];
   public keyword = '';
@@ -37,7 +59,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit {
   public noResults = false;
 
   protected _destroy$ = new Subject();
-  protected _model;
+  protected _model = null;
 
   private _onTouched = () => { };
   private _onChange = (value: any) => {};
@@ -45,9 +67,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit {
   public registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
   public registerOnTouched(fn: () => any): void { this._onTouched = fn }
 
-
-  constructor() {}
-
+  constructor() { }
 
   public search(e, keyword) {
     if (!keyword) {
@@ -104,7 +124,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit {
 
   public writeValue(value: any): void {
     this._model = value;
-    this.updateKeywordDisplay();
+    // updateKeywordDisplay doesn't work without timeout
+    this.blur();
   }
 
   public ngOnInit() {
@@ -121,15 +142,16 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit {
       .pipe(
         takeUntil(this._destroy$)
       )
-      .subscribe((e) => {
+      .subscribe(e => {
         if (!this.keyword) {
           this.updateSelected(null);
         }
       });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
   }
+
 }

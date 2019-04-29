@@ -10,6 +10,7 @@ import {
 
 import { FsAutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { FsAutocompleteTemplateDirective } from './directives/autocomplete-template/autocomplete-template.directive';
+import { FsAutocompleteSuffixDirective } from './directives/autocomplete-suffix/autocomplete-suffix.directive';
 
 
 @NgModule({
@@ -23,13 +24,15 @@ import { FsAutocompleteTemplateDirective } from './directives/autocomplete-templ
   ],
   exports: [
     FsAutocompleteComponent,
-    FsAutocompleteTemplateDirective
+    FsAutocompleteTemplateDirective,
+    FsAutocompleteSuffixDirective
   ],
   entryComponents: [
   ],
   declarations: [
     FsAutocompleteComponent,
-    FsAutocompleteTemplateDirective
+    FsAutocompleteTemplateDirective,
+    FsAutocompleteSuffixDirective
   ],
   providers: [
   ],

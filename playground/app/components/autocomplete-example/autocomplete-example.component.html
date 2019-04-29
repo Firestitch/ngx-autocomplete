@@ -1,5 +1,4 @@
 <form fsForm>
-
   <fs-autocomplete
     [fetch]="fetch"
     [displayWith]="displayWith"
@@ -8,16 +7,23 @@
     (ngModelChange)="modelChange($event)"
     [required]="true"
     name="model">
+    <ng-template fsAutocompleteSuffix let-data="data">
+      <mat-icon
+        *ngIf="data && data.value"
+        color="primary"
+        (click)="onProceed(data)">launch
+      </mat-icon>
+    </ng-template>
     <ng-template fsAutocompleteTemplate let-data="data">
       <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
         <fs-badge size="30" [image]="data.image"></fs-badge>
-        <span>{{data.name}}</span>
+        <span>{{ data.name }}</span>
       </div>
     </ng-template>
   </fs-autocomplete>
 
-<fieldset *ngIf="model">
-  <legend>Selected</legend>
-  {{ model | json }}
-</fieldset>
+  <fieldset *ngIf="model">
+    <legend>Selected</legend>
+    {{ model | json }}
+  </fieldset>
 </form>

@@ -45,4 +45,9 @@ export class AutocompleteExampleComponent implements OnInit {
   public modelChange(event) {
     console.log(event);
   }
+
+  public onProceed(data) {
+    console.log(data);
+  }
+
 }

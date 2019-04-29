@@ -10,6 +10,13 @@
     (keyup)="keyword$.next($event)"
     [matAutocomplete]="userAutocompleteInput">
 
+  <div matSuffix>
+    <ng-container
+      [ngTemplateOutlet]="suffix"
+      [ngTemplateOutletContext]="{ data: ngModel }">
+    </ng-container>
+  </div>
+
   <mat-autocomplete
     #userAutocompleteInput="matAutocomplete"
     (optionSelected)="optionSelected($event)"
@@ -26,7 +33,4 @@
       No results found
     </mat-option>
   </mat-autocomplete>
-
 </mat-form-field>
-
-
