@@ -6,6 +6,7 @@
     [placeholder]="placeholder"
     [(ngModel)]="keyword"
     name="autocomplete"
+    (focus)="focus($event)"
     (blur)="blur()"
     (keyup)="keyword$.next($event)"
     [matAutocomplete]="userAutocompleteInput">

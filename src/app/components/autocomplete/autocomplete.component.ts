@@ -52,6 +52,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public placeholder = '';
   @Input() public displayWith: Function = null;
   @Input() public ngModel = null;
+  @Input() public fetchOnFocus = true;
 
   public searchData: any[] = [];
   public keyword = '';
@@ -70,11 +71,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   constructor() { }
 
   public search(e, keyword) {
-    if (!keyword) {
-      this.searchData = [];
-      this.noResults = false;
-      return;
-    }
 
     if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
       return;
@@ -89,6 +85,12 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
           this.searchData = response;
           this.noResults = !response.length;
         });
+    }
+  }
+
+  public focus(e) {
+    if (this.fetchOnFocus && !this._model) {
+      this.search(e, this.keywordInput.nativeElement.value);
     }
   }
 
