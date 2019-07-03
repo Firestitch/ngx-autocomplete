@@ -15,6 +15,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { trim } from 'lodash-es';
 
 import {
   FsAutocompleteTemplateDirective
@@ -77,7 +78,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
 
     if (this.fetch) {
-      this.fetch(keyword)
+      this.fetch(trim(keyword))
         .pipe(
           takeUntil(this._destroy$)
         )
