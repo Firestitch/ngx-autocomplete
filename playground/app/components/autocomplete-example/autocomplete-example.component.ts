@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { filter } from 'lodash-es';
 import { of } from 'rxjs';
+import { FsMessage } from '@firestitch/message';
+import { FsAutocompleteComponent } from '@firestitch/autocomplete';
 
 
 @Component({
@@ -10,9 +12,11 @@ import { of } from 'rxjs';
 })
 export class AutocompleteExampleComponent implements OnInit {
 
-  @ViewChild('input') input;
+  @ViewChild('autocomplete') autocomplete: FsAutocompleteComponent;
 
   public model;
+
+  constructor(private _message: FsMessage) {}
 
   private _list: { name: string, value: number, image: string }[] = [
     { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  },
@@ -27,8 +31,6 @@ export class AutocompleteExampleComponent implements OnInit {
     { name: 'Howard', value: 4, image: 'https://randomuser.me/api/portraits/men/99.jpg' }
   ];
 
-  constructor() {}
-
   ngOnInit() {
   }
 
@@ -42,8 +44,10 @@ export class AutocompleteExampleComponent implements OnInit {
     return data.name;
   };
 
-  public customClick() {
-    console.log('option clicked');
+  public staticClick(event: KeyboardEvent, name) {
+    event.stopPropagation();
+    this.autocomplete.close();
+    this._message.success(name + ' Clicked');
   }
 
   public modelChange(event) {
@@ -53,5 +57,4 @@ export class AutocompleteExampleComponent implements OnInit {
   public onProceed(data) {
     console.log(data);
   }
-
 }

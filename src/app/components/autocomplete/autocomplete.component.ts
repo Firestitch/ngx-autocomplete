@@ -12,7 +12,7 @@ import {
   ContentChildren
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material';
 
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -41,12 +41,13 @@ import { FsAutocompleteStaticTemplateDirective } from '../../directives/static-t
 })
 export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
+  @ViewChild(MatAutocompleteTrigger) autocomplete: MatAutocompleteTrigger;
+
   @ContentChild(FsAutocompleteTemplateDirective, { read: TemplateRef })
   public template: TemplateRef<FsAutocompleteTemplateDirective> = null;
 
   @ContentChildren(FsAutocompleteStaticTemplateDirective, { read: TemplateRef })
   set t(val) {
-    debugger;
     this.staticTemplates = val;
   }
   public staticTemplates: TemplateRef<FsAutocompleteStaticTemplateDirective>[] = null;
@@ -64,8 +65,13 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public ngModel = null;
   @Input() public fetchOnFocus = true;
 
+  @Input('panelClass') set setPanelClass(value) {
+    this.panelClasses.push(value);
+  }
+
   public searchData: any[] = [];
   public keyword = '';
+  public panelClasses = ['fs-autocomplete-panel'];
   public keyword$ = new Subject();
   public noResults = false;
 
@@ -132,6 +138,10 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this._onChange(value);
     this._onTouched();
     this._model = value;
+  }
+
+  public close() {
+    this.autocomplete.closePanel();
   }
 
   public writeValue(value: any): void {

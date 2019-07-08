@@ -22,6 +22,7 @@
     #userAutocompleteInput="matAutocomplete"
     (optionSelected)="optionSelected($event)"
     [autoActiveFirstOption]="true"
+    [class]="panelClasses.join(' ')"
     [displayWith]="display">
 
     <mat-option *ngFor="let data of searchData" [value]="data">
@@ -31,14 +32,14 @@
       </ng-container>
     </mat-option>
 
-    <ng-container *ngIf="staticTemplates.length">
-      <mat-option *ngFor="let staticTemplate of staticTemplates">
-        <ng-template [ngTemplateOutlet]="staticTemplate"></ng-template>
-      </mat-option>
-    </ng-container>
-
     <mat-option *ngIf="noResults" disabled class="no-results">
       No results found
     </mat-option>
+
+    <ng-container *ngIf="staticTemplates.length">
+      <mat-option *ngFor="let staticTemplate of staticTemplates; let i = index" class="static-option" [ngClass]="{ 'static-option-first': !i }">
+        <ng-template [ngTemplateOutlet]="staticTemplate"></ng-template>
+      </mat-option>
+    </ng-container>
   </mat-autocomplete>
 </mat-form-field>
