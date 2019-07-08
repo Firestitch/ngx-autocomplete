@@ -30,6 +30,13 @@
         [ngTemplateOutletContext]="{ data: data }">
       </ng-container>
     </mat-option>
+
+    <ng-container *ngIf="staticTemplates.length">
+      <mat-option *ngFor="let staticTemplate of staticTemplates">
+        <ng-template [ngTemplateOutlet]="staticTemplate"></ng-template>
+      </mat-option>
+    </ng-container>
+
     <mat-option *ngIf="noResults" disabled class="no-results">
       No results found
     </mat-option>

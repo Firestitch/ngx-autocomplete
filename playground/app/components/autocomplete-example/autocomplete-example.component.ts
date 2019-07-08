@@ -36,10 +36,14 @@ export class AutocompleteExampleComponent implements OnInit {
     return of(filter(this._list, option => {
       return option.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
     }));
-  }
+  };
 
   public displayWith = (data) => {
     return data.name;
+  };
+
+  public customClick() {
+    console.log('option clicked');
   }
 
   public modelChange(event) {

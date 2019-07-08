@@ -11,6 +11,7 @@ import {
 import { FsAutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { FsAutocompleteTemplateDirective } from './directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteSuffixDirective } from './directives/autocomplete-suffix/autocomplete-suffix.directive';
+import { FsAutocompleteStaticTemplateDirective } from './directives/static-template/static-template.directive';
 
 
 @NgModule({
@@ -25,14 +26,16 @@ import { FsAutocompleteSuffixDirective } from './directives/autocomplete-suffix/
   exports: [
     FsAutocompleteComponent,
     FsAutocompleteTemplateDirective,
-    FsAutocompleteSuffixDirective
+    FsAutocompleteSuffixDirective,
+    FsAutocompleteStaticTemplateDirective,
   ],
   entryComponents: [
   ],
   declarations: [
     FsAutocompleteComponent,
     FsAutocompleteTemplateDirective,
-    FsAutocompleteSuffixDirective
+    FsAutocompleteSuffixDirective,
+    FsAutocompleteStaticTemplateDirective,
   ],
   providers: [
   ],

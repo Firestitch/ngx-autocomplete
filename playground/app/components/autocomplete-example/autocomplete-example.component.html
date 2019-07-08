@@ -21,6 +21,13 @@
         <span>{{ data.name }}</span>
       </div>
     </ng-template>
+
+    <ng-template fsAutocompleteStaticTemplate>
+    <div (click)="customClick()">Cash or Cheque</div>
+    </ng-template>
+    <ng-template fsAutocompleteStaticTemplate>
+      <div (click)="customClick()">Email Money Transfer</div>
+    </ng-template>
   </fs-autocomplete>
 
   <fieldset *ngIf="model">

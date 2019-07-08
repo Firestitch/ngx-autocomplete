@@ -8,7 +8,8 @@ import {
   ViewChild,
   ElementRef,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  ContentChildren
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
@@ -23,6 +24,7 @@ import {
 import {
   FsAutocompleteSuffixDirective
 } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
+import { FsAutocompleteStaticTemplateDirective } from '../../directives/static-template/static-template.directive';
 
 
 @Component({
@@ -40,10 +42,17 @@ import {
 export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
   @ContentChild(FsAutocompleteTemplateDirective, { read: TemplateRef })
-  public template: FsAutocompleteTemplateDirective = null;
+  public template: TemplateRef<FsAutocompleteTemplateDirective> = null;
+
+  @ContentChildren(FsAutocompleteStaticTemplateDirective, { read: TemplateRef })
+  set t(val) {
+    debugger;
+    this.staticTemplates = val;
+  }
+  public staticTemplates: TemplateRef<FsAutocompleteStaticTemplateDirective>[] = null;
 
   @ContentChild(FsAutocompleteSuffixDirective, { read: TemplateRef })
-  public suffix: FsAutocompleteSuffixDirective = null;
+  public suffix: TemplateRef<FsAutocompleteSuffixDirective> = null;
 
   @HostBinding('class.fs-form-wrapper') formWrapper = true;
 
