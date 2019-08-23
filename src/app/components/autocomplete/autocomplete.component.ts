@@ -88,7 +88,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   public search(e, keyword) {
 
-    if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
+    if (e && (e.code === 'ArrowDown' || e.code === 'ArrowUp')) {
       return;
     }
 
@@ -102,6 +102,10 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
           this.noResults = !response.length;
         });
     }
+  }
+
+  public reload() {
+    this.search(null, this.keywordInput.nativeElement.value);
   }
 
   public focus(e) {
