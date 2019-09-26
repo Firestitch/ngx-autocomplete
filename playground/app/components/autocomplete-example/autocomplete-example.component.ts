@@ -14,7 +14,8 @@ export class AutocompleteExampleComponent implements OnInit {
 
   @ViewChild('autocomplete') autocomplete: FsAutocompleteComponent;
 
-  public model;
+  //public model = { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  };
+  public model = { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  };
 
   constructor(private _message: FsMessage) {}
 

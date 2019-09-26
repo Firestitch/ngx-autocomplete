@@ -9,7 +9,9 @@ import {
   ElementRef,
   OnInit,
   OnDestroy,
-  ContentChildren
+  ContentChildren,
+  AfterContentInit,
+  AfterViewInit
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material';
@@ -62,8 +64,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public fetch: Function = null;
   @Input() public placeholder = '';
   @Input() public displayWith: Function = null;
-  @Input() public ngModel = null;
-  @Input() public fetchOnFocus = true;
+  @Input() public fetchOnFocus = false;
+  @Input() public ngModel;
 
   @Input('panelClass') set setPanelClass(value) {
     this.panelClasses.push(value);
@@ -114,14 +116,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
   }
 
-  public blur() {
-    setTimeout(() => {
-      this.updateKeywordDisplay();
-    }, 50);
-  }
-
   public updateKeywordDisplay() {
-
     const value = this._model ? this.display(this._model) : '';
     this.keywordInput.nativeElement.value = value;
   }
@@ -130,7 +125,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     if (data && this.displayWith) {
       return this.displayWith(data);
     }
-
     return '';
   }
 
@@ -139,9 +133,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public updateSelected(value) {
-    this._onChange(value);
-    this._onTouched();
     this._model = value;
+    this.updateKeywordDisplay();
+    this._onChange(value);
   }
 
   public close() {
@@ -150,17 +144,22 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   public writeValue(value: any): void {
     this._model = value;
-    // updateKeywordDisplay doesn't work without timeout
-    this.blur();
+    this.updateKeywordDisplay();
   }
 
   public ngOnInit() {
+
+    setTimeout(() => {
+      this.writeValue(this.ngModel);
+    });
+
     this.keyword$
       .pipe(
         takeUntil(this._destroy$),
-        debounceTime(300)
+        debounceTime(200)
       )
       .subscribe((e: any) => {
+        this._onTouched();
         this.search(e, e.target.value);
       });
 
@@ -168,16 +167,34 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       .pipe(
         takeUntil(this._destroy$)
       )
-      .subscribe(e => {
+      .subscribe((e: KeyboardEvent) => {
+
         if (!this.keyword) {
           this.updateSelected(null);
         }
       });
   }
 
+  public keyDown(event: KeyboardEvent) {
+
+    if (event.code === 'Backspace' &&  this._model) {
+      this.keyword = '';
+      this.updateSelected(null);
+    }
+
+    if (event.code === 'Escape' &&  !this._model) {
+      this.keyword = '';
+    }
+
+    if (event.code === 'Tab') {
+      if (this.autocomplete.activeOption) {
+        this.updateSelected(this.autocomplete.activeOption.value);
+      }
+    }
+  }
+
   public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
   }
-
 }
