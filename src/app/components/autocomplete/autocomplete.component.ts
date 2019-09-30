@@ -10,8 +10,6 @@ import {
   OnInit,
   OnDestroy,
   ContentChildren,
-  AfterContentInit,
-  AfterViewInit
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material';
@@ -80,6 +78,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   protected _destroy$ = new Subject();
   protected _model = null;
 
+  private _ignoreKeys = ['Enter', 'Escape', 'ArrowUp', 'ArrowLeft', 'ArrowRight',
+                          'ArrowDown', 'Alt', 'Control', 'Shift', 'Tab']
   private _onTouched = () => { };
   private _onChange = (value: any) => {};
 
@@ -90,8 +90,10 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   public search(e, keyword) {
 
-    if (e && (e.code === 'ArrowDown' || e.code === 'ArrowUp')) {
-      return;
+    if (e) {
+      if (this._ignoreKeys.indexOf(e.key) >= 0) {
+        return;
+      }
     }
 
     if (this.fetch) {
@@ -116,6 +118,16 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
   }
 
+  public blur(e) {
+    setTimeout(() => {
+      if (!this._model) {
+        this.keyword = '';
+      }
+
+      this.searchData = [];
+    }, 100);
+  }
+
   public updateKeywordDisplay() {
     const value = this._model ? this.display(this._model) : '';
     this.keywordInput.nativeElement.value = value;
@@ -134,6 +146,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   public updateSelected(value) {
     this._model = value;
+    this.searchData = [];
     this.updateKeywordDisplay();
     this._onChange(value);
   }
@@ -156,39 +169,25 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.keyword$
       .pipe(
         takeUntil(this._destroy$),
-        debounceTime(200)
+        debounceTime(150)
       )
       .subscribe((e: any) => {
         this._onTouched();
         this.search(e, e.target.value);
       });
-
-    this.keyword$
-      .pipe(
-        takeUntil(this._destroy$)
-      )
-      .subscribe((e: KeyboardEvent) => {
-
-        if (!this.keyword) {
-          this.updateSelected(null);
-        }
-      });
   }
 
   public keyDown(event: KeyboardEvent) {
 
-    if (event.code === 'Backspace' &&  this._model) {
-      this.keyword = '';
-      this.updateSelected(null);
-    }
-
-    if (event.code === 'Escape' &&  !this._model) {
-      this.keyword = '';
-    }
-
     if (event.code === 'Tab') {
-      if (this.autocomplete.activeOption) {
+      if (this.autocomplete.activeOption && this.autocomplete.activeOption.value) {
         this.updateSelected(this.autocomplete.activeOption.value);
+      }
+
+    } else {
+
+      if (this._model && this._ignoreKeys.indexOf(event.key) < 0) {
+        this.updateSelected(null);
       }
     }
   }
