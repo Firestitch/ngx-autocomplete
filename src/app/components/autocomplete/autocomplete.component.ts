@@ -1,29 +1,26 @@
 import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChild,
-  TemplateRef,
+  ContentChildren,
+  ElementRef,
+  forwardRef,
   HostBinding,
   Input,
-  forwardRef,
-  ViewChild,
-  ElementRef,
-  OnInit,
   OnDestroy,
-  ContentChildren,
+  OnInit,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material';
 
-import { takeUntil, debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { trim } from 'lodash-es';
 
-import {
-  FsAutocompleteTemplateDirective
-} from '../../directives/autocomplete-template/autocomplete-template.directive';
-import {
-  FsAutocompleteSuffixDirective
-} from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
+import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
+import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
 import { FsAutocompleteStaticTemplateDirective } from '../../directives/static-template/static-template.directive';
 
 
@@ -37,7 +34,8 @@ import { FsAutocompleteStaticTemplateDirective } from '../../directives/static-t
       useExisting: forwardRef(() => FsAutocompleteComponent),
       multi: true
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
@@ -86,7 +84,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
   public registerOnTouched(fn: () => any): void { this._onTouched = fn }
 
-  constructor() { }
+  constructor(
+    private _cdRef: ChangeDetectorRef,
+  ) { }
 
   public search(e, keyword) {
 
@@ -104,6 +104,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
         .subscribe(response => {
           this.searchData = response;
           this.noResults = !response.length;
+
+          this._cdRef.markForCheck();
         });
     }
   }
@@ -131,6 +133,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public updateKeywordDisplay() {
     const value = this._model ? this.display(this._model) : '';
     this.keywordInput.nativeElement.value = value;
+
+    this._cdRef.markForCheck();
   }
 
   public display = (data) => {
