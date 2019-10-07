@@ -10,7 +10,7 @@ import { startWith, map } from 'rxjs/operators';
 })
 export class AutocompleteLabelExampleComponent implements OnInit {
 
-  @ViewChild('input') input;
+  @ViewChild('input', { static: true }) input;
 
   public user: { name: string, value: number, avatar: string } = { name: '', value: null, avatar: '' };
 

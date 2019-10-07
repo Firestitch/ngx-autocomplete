@@ -12,7 +12,7 @@ import { FsAutocompleteComponent } from '@firestitch/autocomplete';
 })
 export class AutocompleteExampleComponent implements OnInit {
 
-  @ViewChild('autocomplete') autocomplete: FsAutocompleteComponent;
+  @ViewChild('autocomplete', { static: true }) autocomplete: FsAutocompleteComponent;
 
   //public model = { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  };
   public model = { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  };
