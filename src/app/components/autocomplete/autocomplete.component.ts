@@ -13,7 +13,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -39,9 +39,9 @@ import { FsAutocompleteStaticTemplateDirective } from '../../directives/static-t
 })
 export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
-  @ViewChild(MatAutocompleteTrigger) autocomplete: MatAutocompleteTrigger;
+  @ViewChild(MatAutocompleteTrigger, { static: true }) autocomplete: MatAutocompleteTrigger;
 
-  @ContentChild(FsAutocompleteTemplateDirective, { read: TemplateRef })
+  @ContentChild(FsAutocompleteTemplateDirective, { read: TemplateRef, static: true })
   public template: TemplateRef<FsAutocompleteTemplateDirective> = null;
 
   @ContentChildren(FsAutocompleteStaticTemplateDirective, { read: TemplateRef })
@@ -50,12 +50,12 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
   public staticTemplates: TemplateRef<FsAutocompleteStaticTemplateDirective>[] = null;
 
-  @ContentChild(FsAutocompleteSuffixDirective, { read: TemplateRef })
+  @ContentChild(FsAutocompleteSuffixDirective, { read: TemplateRef, static: true })
   public suffix: TemplateRef<FsAutocompleteSuffixDirective> = null;
 
   @HostBinding('class.fs-form-wrapper') formWrapper = true;
 
-  @ViewChild('keywordInput') keywordInput: ElementRef;
+  @ViewChild('keywordInput', { static: true }) keywordInput: ElementRef;
 
   @Input() public fetch: Function = null;
   @Input() public placeholder = '';
