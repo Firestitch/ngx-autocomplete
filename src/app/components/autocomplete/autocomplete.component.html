@@ -6,13 +6,14 @@
     [placeholder]="placeholder"
     [(ngModel)]="keyword"
     name="autocomplete"
+    [disabled]="disabled"
     (focus)="focus($event)"
     (blur)="blur($event)"
     (keyup)="keyword$.next($event)"
     (keydown)="keyDown($event)"
     [matAutocomplete]="userAutocompleteInput">
 
-  <div matSuffix>
+  <div *ngIf="!disabled" matSuffix>
     <ng-container
       [ngTemplateOutlet]="suffix"
       [ngTemplateOutletContext]="{ data: ngModel }">
