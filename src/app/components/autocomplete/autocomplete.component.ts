@@ -17,7 +17,7 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { trim } from 'lodash-es';
+import { trim, random } from 'lodash-es';
 
 import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
@@ -73,6 +73,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public panelClasses = ['fs-autocomplete-panel'];
   public keyword$ = new Subject();
   public noResults = false;
+  public name = 'autocomplete_'.concat(random(1, 9999999));
 
   protected _destroy$ = new Subject();
   protected _model = null;
