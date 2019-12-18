@@ -61,8 +61,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public placeholder = '';
   @Input() public displayWith: Function = null;
   @Input() public fetchOnFocus = false;
-  @Input() public ngModel;
+  @Input() public readonly = false;
   @Input() public disabled = false;
+  @Input() public ngModel;
 
   @Input('panelClass') set setPanelClass(value) {
     this.panelClasses.push(value);
@@ -117,12 +118,22 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public focus(e) {
+
+    if (this.readonly || this.disabled) {
+      return;
+    }
+
     if (this.fetchOnFocus && !this._model) {
       this.search(e, this.keywordInput.nativeElement.value);
     }
   }
 
   public blur(e) {
+
+    if (this.readonly || this.disabled) {
+      return;
+    }
+
     setTimeout(() => {
       if (!this._model) {
         this.keyword = '';
@@ -183,7 +194,20 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       });
   }
 
+  public keyUp(event: KeyboardEvent) {
+
+    if (this.readonly || this.disabled) {
+      return;
+    }
+
+    this.keyword$.next(event);
+  }
+
   public keyDown(event: KeyboardEvent) {
+
+    if (this.readonly || this.disabled) {
+      return;
+    }
 
     if (event.code === 'Tab') {
       if (this.autocomplete.activeOption && this.autocomplete.activeOption.value) {

@@ -7,9 +7,10 @@
     [(ngModel)]="keyword"
     [name]="name"
     [disabled]="disabled"
+    [readonly]="readonly"
     (focus)="focus($event)"
     (blur)="blur($event)"
-    (keyup)="keyword$.next($event)"
+    (keyup)="keyUp($event)"
     (keydown)="keyDown($event)"
     [matAutocomplete]="userAutocompleteInput">
 
