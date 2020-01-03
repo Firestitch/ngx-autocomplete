@@ -11,6 +11,7 @@ import { FsAutocompleteComponent } from './components/autocomplete/autocomplete.
 import { FsAutocompleteTemplateDirective } from './directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteSuffixDirective } from './directives/autocomplete-suffix/autocomplete-suffix.directive';
 import { FsAutocompleteStaticTemplateDirective } from './directives/static-template/static-template.directive';
+import { FsAutocompleteNoResultsDirective } from './directives/no-results-template/no-results-template.directive';
 
 
 @NgModule({
@@ -27,22 +28,17 @@ import { FsAutocompleteStaticTemplateDirective } from './directives/static-templ
     FsAutocompleteTemplateDirective,
     FsAutocompleteSuffixDirective,
     FsAutocompleteStaticTemplateDirective,
-  ],
-  entryComponents: [
+    FsAutocompleteNoResultsDirective
   ],
   declarations: [
     FsAutocompleteComponent,
     FsAutocompleteTemplateDirective,
     FsAutocompleteSuffixDirective,
     FsAutocompleteStaticTemplateDirective,
+    FsAutocompleteNoResultsDirective
   ],
   providers: [
   ],
 })
 export class FsAutocompleteModule {
-  // static forRoot(): ModuleWithProviders {
-  //   return {
-  //     ngModule: FsAutocompleteModule,
-  //   };
-  // }
 }

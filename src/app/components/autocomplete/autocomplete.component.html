@@ -10,7 +10,7 @@
     [readonly]="readonly"
     (focus)="focus($event)"
     (blur)="blur($event)"
-    (keyup)="keyUp($event)"
+    (input)="input($event)"
     (keydown)="keyDown($event)"
     [matAutocomplete]="userAutocompleteInput">
 
@@ -35,14 +35,21 @@
       </ng-container>
     </mat-option>
 
-    <mat-option *ngIf="noResults" disabled class="no-results">
-      No results found
-    </mat-option>
-
-    <ng-container *ngIf="staticTemplates.length">
-      <mat-option *ngFor="let staticTemplate of staticTemplates; let i = index" class="static-option" [ngClass]="{ 'static-option-first': !i }">
-        <ng-template [ngTemplateOutlet]="staticTemplate"></ng-template>
-      </mat-option>
+    <ng-container *ngIf="noResults">
+      <ng-template
+        *ngIf="noResultsTemplate; else noResultsOption"
+        [ngTemplateOutlet]="noResultsTemplate"
+        [ngTemplateOutletContext]="{ keyword: keyword }">
+      </ng-template>
+      <ng-template #noResultsOption>
+        <mat-option disabled class="no-results">
+          No results for "{{keyword}}"
+        </mat-option>
+      </ng-template>
     </ng-container>
+
+    <mat-option *ngFor="let staticTemplate of staticTemplates; let i = index" class="static-option" [ngClass]="{ 'static-option-first': !i }">
+      <ng-template [ngTemplateOutlet]="staticTemplate"></ng-template>
+    </mat-option>
   </mat-autocomplete>
 </mat-form-field>

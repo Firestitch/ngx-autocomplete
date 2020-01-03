@@ -22,6 +22,7 @@ import { trim, random } from 'lodash-es';
 import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
 import { FsAutocompleteStaticTemplateDirective } from '../../directives/static-template/static-template.directive';
+import { FsAutocompleteNoResultsDirective } from '../../directives/no-results-template/no-results-template.directive';
 
 
 @Component({
@@ -49,6 +50,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.staticTemplates = val;
   }
   public staticTemplates: TemplateRef<FsAutocompleteStaticTemplateDirective>[] = null;
+
+  @ContentChild(FsAutocompleteNoResultsDirective, { read: TemplateRef, static: true })
+  public noResultsTemplate: TemplateRef<FsAutocompleteNoResultsDirective>[] = null;
 
   @ContentChild(FsAutocompleteSuffixDirective, { read: TemplateRef, static: true })
   public suffix: TemplateRef<FsAutocompleteSuffixDirective> = null;
@@ -91,15 +95,16 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     private _cdRef: ChangeDetectorRef,
   ) { }
 
-  public search(e, keyword) {
+  public search(event: KeyboardEvent, keyword) {
 
-    if (e) {
-      if (this._ignoreKeys.indexOf(e.key) >= 0) {
+    if (event) {
+      if (this._ignoreKeys.indexOf(event.key) >= 0) {
         return;
       }
     }
 
     if (this.fetch) {
+
       this.fetch(trim(keyword))
         .pipe(
           takeUntil(this._destroy$)
@@ -162,6 +167,11 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public updateSelected(value) {
+
+    if (typeof value === 'string' && !value.length) {
+      this.clear();
+    }
+
     this._model = value;
     this.searchData = [];
     this.updateKeywordDisplay();
@@ -188,16 +198,20 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
         takeUntil(this._destroy$),
         debounceTime(150)
       )
-      .subscribe((e: any) => {
+      .subscribe((event: any) => {
         this._onTouched();
-        this.search(e, e.target.value);
+        this.search(event, event.target.value);
       });
   }
 
-  public keyUp(event: KeyboardEvent) {
+  public input(event) {
 
     if (this.readonly || this.disabled) {
       return;
+    }
+
+    if (!event.target.value.length) {
+      return this.clear();
     }
 
     this.keyword$.next(event);
@@ -225,5 +239,10 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  public clear() {
+    this.searchData = [];
+    this.noResults = false;
   }
 }

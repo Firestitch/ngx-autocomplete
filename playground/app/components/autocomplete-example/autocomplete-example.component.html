@@ -2,7 +2,6 @@
   <fs-autocomplete
     #autocomplete
     [fetch]="fetch"
-    [fetchOnFocus]="true"
     [displayWith]="displayWith"
     [(ngModel)]="model"
     placeholder="Autocomplete"
@@ -23,10 +22,16 @@
       </div>
     </ng-template>
 
-    <ng-template fsAutocompleteStaticTemplate>
+    <ng-template fsAutocompleteNoResults let-keyword="keyword">
+      <mat-option disabled>
+        Custom No Results for "{{keyword}}"
+      </mat-option>
+    </ng-template>
+
+    <ng-template fsAutocompleteStatic>
       <div (click)="staticClick($event, 'Cash or Cheque')">Cash or Cheque</div>
     </ng-template>
-    <ng-template fsAutocompleteStaticTemplate>
+    <ng-template fsAutocompleteStatic>
       <div (click)="staticClick($event, 'Email Money Transfer')">Email Money Transfer</div>
     </ng-template>
   </fs-autocomplete>
