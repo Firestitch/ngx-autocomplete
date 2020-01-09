@@ -66,13 +66,14 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public displayWith: Function = null;
   @Input() public fetchOnFocus = false;
   @Input() public readonly = false;
-  @Input() public disabled = false;
   @Input() public ngModel;
 
-  @Input('panelClass') set setPanelClass(value) {
+  @Input('panelClass')
+  set setPanelClass(value) {
     this.panelClasses.push(value);
   }
 
+  public disabled = false;
   public searchData: any[] = [];
   public keyword = '';
   public panelClasses = ['fs-autocomplete-panel'];
@@ -94,6 +95,23 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   constructor(
     private _cdRef: ChangeDetectorRef,
   ) { }
+
+  public ngOnInit() {
+
+    setTimeout(() => {
+      this.writeValue(this.ngModel);
+    });
+
+    this.keyword$
+      .pipe(
+        takeUntil(this._destroy$),
+        debounceTime(150)
+      )
+      .subscribe((event: any) => {
+        this._onTouched();
+        this.search(event, event.target.value);
+      });
+  }
 
   public search(event: KeyboardEvent, keyword) {
 
@@ -133,7 +151,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
   }
 
-  public blur(e) {
+  public blur() {
 
     if (this.readonly || this.disabled) {
       return;
@@ -160,7 +178,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       return this.displayWith(data);
     }
     return '';
-  }
+  };
 
   public optionSelected(event: MatAutocompleteSelectedEvent) {
     this.updateSelected(event.option.value);
@@ -187,21 +205,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.updateKeywordDisplay();
   }
 
-  public ngOnInit() {
-
-    setTimeout(() => {
-      this.writeValue(this.ngModel);
-    });
-
-    this.keyword$
-      .pipe(
-        takeUntil(this._destroy$),
-        debounceTime(150)
-      )
-      .subscribe((event: any) => {
-        this._onTouched();
-        this.search(event, event.target.value);
-      });
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   public input(event) {
