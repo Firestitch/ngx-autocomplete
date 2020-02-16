@@ -49,7 +49,11 @@
       </ng-template>
     </ng-container>
 
-    <mat-option *ngFor="let staticTemplate of staticTemplates; let i = index" class="static-option" [ngClass]="{ 'static-option-first': !i }">
+    <mat-option
+      *ngFor="let staticTemplate of staticTemplates; let i = index"
+      class="static-option"
+      (click)="staticClick()"
+      [ngClass]="{ 'static-option-first': !i }">
       <ng-template [ngTemplateOutlet]="staticTemplate"></ng-template>
     </mat-option>
   </mat-autocomplete>

@@ -258,6 +258,10 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
   }
 
+  public staticClick() {
+    this.autocomplete.closePanel();
+  }
+
   public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
