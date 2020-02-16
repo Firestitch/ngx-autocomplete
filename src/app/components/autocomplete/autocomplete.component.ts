@@ -130,8 +130,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
         .subscribe(response => {
           this.searchData = response;
           this.noResults = !response.length;
-
           this._cdRef.markForCheck();
+          this.autocomplete.openPanel();
         });
     }
   }
@@ -146,8 +146,14 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       return;
     }
 
-    if (this.fetchOnFocus && !this._model) {
-      this.search(e, this.keywordInput.nativeElement.value);
+    if (this.fetchOnFocus) {
+      // The timeout is to for a race event between the optionSelected
+      // and the automatic focusing of the input by MatAutocomplete
+      setTimeout(() => {
+        if (!this._model) {
+          this.search(e, this.keywordInput.nativeElement.value);
+        }
+      }, 50);
     }
   }
 
@@ -238,6 +244,17 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       if (this._model && this._ignoreKeys.indexOf(event.key) < 0) {
         this.updateSelected(null);
       }
+    }
+  }
+
+  public keyUp(event: any) {
+
+    if (this.readonly || this.disabled) {
+      return;
+    }
+
+    if (event.code === 'Backspace' && !event.target.value.length) {
+      this.search(event, '');
     }
   }
 

@@ -9,9 +9,10 @@
     [disabled]="disabled"
     [readonly]="readonly"
     (focus)="focus($event)"
-    (blur)="blur($event)"
+    (blur)="blur()"
     (input)="input($event)"
     (keydown)="keyDown($event)"
+    (keyup)="keyUp($event)"
     [matAutocomplete]="userAutocompleteInput">
 
   <div *ngIf="!disabled" matSuffix>
