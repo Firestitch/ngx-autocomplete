@@ -9,13 +9,7 @@
     (ngModelChange)="modelChange($event)"
     [required]="true"
     name="model">
-    <ng-template fsAutocompleteSuffix let-data="data">
-      <mat-icon
-        *ngIf="data && data.value"
-        color="primary"
-        (click)="onProceed(data)">launch
-      </mat-icon>
-    </ng-template>
+
     <ng-template fsAutocompleteTemplate let-data="data">
       <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
         <fs-badge size="30" [image]="data.image"></fs-badge>
@@ -32,9 +26,18 @@
     <ng-template fsAutocompleteStatic>
       <div (click)="staticClick($event, 'Cash or Cheque')">Cash or Cheque</div>
     </ng-template>
+
     <ng-template fsAutocompleteStatic>
       <div (click)="staticClick($event, 'Email Money Transfer')">Email Money Transfer</div>
     </ng-template>
+
+    <ng-template fsAutocompleteSuffix let-data="data">
+      <mat-icon
+        *ngIf="data && data.value"
+        (click)="onProceed(data)">launch
+      </mat-icon>
+    </ng-template>
+
   </fs-autocomplete>
 
   <fieldset *ngIf="model">

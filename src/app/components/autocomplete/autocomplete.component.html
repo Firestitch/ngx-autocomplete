@@ -13,6 +13,7 @@
     (input)="input($event)"
     (keydown)="keyDown($event)"
     (keyup)="keyUp($event)"
+    (ngModelChange)="change($event)"
     [matAutocomplete]="userAutocompleteInput">
 
   <div *ngIf="!disabled" matSuffix>
@@ -20,19 +21,23 @@
       [ngTemplateOutlet]="suffix"
       [ngTemplateOutletContext]="{ data: ngModel }">
     </ng-container>
+
+    <mat-icon
+      *ngIf="model"
+      class="clear"
+      (click)="clearClick($event)">clear</mat-icon>
   </div>
 
   <mat-autocomplete
     #userAutocompleteInput="matAutocomplete"
-    (optionSelected)="optionSelected($event)"
     [autoActiveFirstOption]="true"
     [class]="panelClasses.join(' ')"
     [displayWith]="display">
 
-    <mat-option *ngFor="let data of searchData" [value]="data">
+    <mat-option *ngFor="let item of data" [value]="item">
       <ng-container
         [ngTemplateOutlet]="template"
-        [ngTemplateOutletContext]="{ data: data }">
+        [ngTemplateOutletContext]="{ data: item }">
       </ng-container>
     </mat-option>
 
@@ -44,17 +49,19 @@
       </ng-template>
       <ng-template #noResultsOption>
         <mat-option disabled class="no-results">
-          No results for "{{keyword}}"
+          No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
         </mat-option>
       </ng-template>
     </ng-container>
 
-    <mat-option
-      *ngFor="let staticTemplate of staticTemplates; let i = index"
-      class="static-option"
-      (click)="staticClick()"
-      [ngClass]="{ 'static-option-first': !i }">
-      <ng-template [ngTemplateOutlet]="staticTemplate"></ng-template>
-    </mat-option>
+    <ng-container *ngIf="!model && (!searching || keyword)">
+      <mat-option
+        *ngFor="let staticTemplate of staticTemplates; let i = index"
+        class="static-option"
+        (click)="staticClick()"
+        [ngClass]="{ 'static-option-first': !i }">
+        <ng-template [ngTemplateOutlet]="staticTemplate"></ng-template>
+      </mat-option>
+    </ng-container>
   </mat-autocomplete>
 </mat-form-field>

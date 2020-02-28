@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { filter } from 'lodash-es';
-import { of } from 'rxjs';
+import { of, from } from 'rxjs';
 import { FsMessage } from '@firestitch/message';
 import { FsAutocompleteComponent } from '@firestitch/autocomplete';
+import { filter, timeout, delay, map } from 'rxjs/operators';
 
 
 @Component({
@@ -36,9 +36,15 @@ export class AutocompleteExampleComponent implements OnInit {
   }
 
   public fetch = (name: string) => {
-    return of(filter(this._list, option => {
-      return option.name.toLowerCase().indexOf(name.toLowerCase()) !== -1
-    }));
+    return of(this._list)
+    .pipe(
+      delay(150),
+      map((data) => {
+        return data.filter(item => {
+          return item.name.toLowerCase().indexOf(name.toLowerCase()) !== -1;
+        });
+      })
+    );
   };
 
   public displayWith = (data) => {

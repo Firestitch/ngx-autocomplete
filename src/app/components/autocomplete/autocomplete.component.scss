@@ -9,6 +9,10 @@
   }
 }
 
-:host ::ng-deep .mat-form-field {
+.mat-form-field {
   width: 100%;
+}
+
+.clear {
+  cursor: pointer;
 }
