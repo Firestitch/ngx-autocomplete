@@ -11,6 +11,7 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  QueryList,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -47,6 +48,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   @ContentChildren(FsAutocompleteStaticTemplateDirective, { read: TemplateRef })
   public staticTemplates: TemplateRef<FsAutocompleteStaticTemplateDirective>[] = null;
+
+  @ContentChildren(FsAutocompleteStaticTemplateDirective)
+  public staticDirectives: QueryList<FsAutocompleteStaticTemplateDirective>;
 
   @ContentChild(FsAutocompleteNoResultsDirective, { read: TemplateRef, static: true })
   public noResultsTemplate: TemplateRef<FsAutocompleteNoResultsDirective>[] = null;
@@ -94,6 +98,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   ) { }
 
   public ngOnInit() {
+
 
     // Because the input display is set natively the delay
     // ensure its set after this.keyword
@@ -251,7 +256,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
   }
 
-  public staticClick() {
+  public staticClick(event: KeyboardEvent, index) {
+    const staticDirective: FsAutocompleteStaticTemplateDirective = this.staticDirectives.toArray()[index];
+    staticDirective.click.emit(event);
     this.autocomplete.closePanel();
   }
 

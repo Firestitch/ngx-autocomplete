@@ -23,12 +23,12 @@
       </mat-option>
     </ng-template>
 
-    <ng-template fsAutocompleteStatic>
-      <div (click)="staticClick($event, 'Cash or Cheque')">Cash or Cheque</div>
+    <ng-template fsAutocompleteStatic (click)="staticClick($event, 'Cash or Cheque')">
+      Cash or Cheque
     </ng-template>
 
-    <ng-template fsAutocompleteStatic>
-      <div (click)="staticClick($event, 'Email Money Transfer')">Email Money Transfer</div>
+    <ng-template fsAutocompleteStatic (click)="staticClick($event, 'Email Money Transfer')">
+      Email Money Transfer
     </ng-template>
 
     <ng-template fsAutocompleteSuffix let-data="data">

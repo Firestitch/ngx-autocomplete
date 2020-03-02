@@ -52,8 +52,6 @@ export class AutocompleteExampleComponent implements OnInit {
   };
 
   public staticClick(event: KeyboardEvent, name) {
-    event.stopPropagation();
-    this.autocomplete.close();
     this._message.success(name + ' Clicked');
   }
 

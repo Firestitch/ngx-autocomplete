@@ -17,15 +17,15 @@
     [matAutocomplete]="userAutocompleteInput">
 
   <div *ngIf="!disabled" matSuffix>
-    <ng-container
-      [ngTemplateOutlet]="suffix"
-      [ngTemplateOutletContext]="{ data: ngModel }">
-    </ng-container>
-
     <mat-icon
       *ngIf="model"
       class="clear"
       (click)="clearClick($event)">clear</mat-icon>
+
+    <ng-container
+      [ngTemplateOutlet]="suffix"
+      [ngTemplateOutletContext]="{ data: ngModel }">
+    </ng-container>
   </div>
 
   <mat-autocomplete
@@ -58,9 +58,9 @@
       <mat-option
         *ngFor="let staticTemplate of staticTemplates; let i = index"
         class="static-option"
-        (click)="staticClick()"
+        (click)="staticClick($event, i)"
         [ngClass]="{ 'static-option-first': !i }">
-        <ng-template [ngTemplateOutlet]="staticTemplate"></ng-template>
+        <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
       </mat-option>
     </ng-container>
   </mat-autocomplete>
