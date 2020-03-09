@@ -12,6 +12,8 @@ import {
   TemplateRef,
   ViewChild,
   QueryList,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -22,7 +24,7 @@ import { trim, random, isObject } from 'lodash-es';
 
 import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
-import { FsAutocompleteStaticTemplateDirective } from '../../directives/static-template/static-template.directive';
+import { FsAutocompleteStaticDirective } from '../../directives/autocomplete-static/autocomplete-static.directive';
 import { FsAutocompleteNoResultsDirective } from '../../directives/no-results-template/no-results-template.directive';
 
 
@@ -46,11 +48,11 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @ContentChild(FsAutocompleteTemplateDirective, { read: TemplateRef, static: true })
   public template: TemplateRef<FsAutocompleteTemplateDirective> = null;
 
-  @ContentChildren(FsAutocompleteStaticTemplateDirective, { read: TemplateRef })
-  public staticTemplates: TemplateRef<FsAutocompleteStaticTemplateDirective>[] = null;
+  @ContentChildren(FsAutocompleteStaticDirective, { read: TemplateRef })
+  public staticTemplates: TemplateRef<FsAutocompleteStaticDirective>[] = null;
 
-  @ContentChildren(FsAutocompleteStaticTemplateDirective)
-  public staticDirectives: QueryList<FsAutocompleteStaticTemplateDirective>;
+  @ContentChildren(FsAutocompleteStaticDirective)
+  public staticDirectives: QueryList<FsAutocompleteStaticDirective>;
 
   @ContentChild(FsAutocompleteNoResultsDirective, { read: TemplateRef, static: true })
   public noResultsTemplate: TemplateRef<FsAutocompleteNoResultsDirective>[] = null;
@@ -73,6 +75,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   set setPanelClass(value) {
     this.panelClasses.push(value);
   }
+
+  @Output() public cleared = new EventEmitter();
 
   public disabled = false;
   public data: any[] = [];
@@ -257,7 +261,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public staticClick(event: KeyboardEvent, index) {
-    const staticDirective: FsAutocompleteStaticTemplateDirective = this.staticDirectives.toArray()[index];
+    const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
     staticDirective.click.emit(event);
     this.autocomplete.closePanel();
   }
@@ -281,6 +285,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     event.stopPropagation();
     this.clear();
     this.keywordInput.nativeElement.focus();
+    this.cleared.emit();
   }
 
   private _updateKeywordDisplay() {

@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FsAutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { FsAutocompleteTemplateDirective } from './directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteSuffixDirective } from './directives/autocomplete-suffix/autocomplete-suffix.directive';
-import { FsAutocompleteStaticTemplateDirective } from './directives/static-template/static-template.directive';
+import { FsAutocompleteStaticDirective } from './directives/autocomplete-static/autocomplete-static.directive';
 import { FsAutocompleteNoResultsDirective } from './directives/no-results-template/no-results-template.directive';
 
 
@@ -27,14 +27,14 @@ import { FsAutocompleteNoResultsDirective } from './directives/no-results-templa
     FsAutocompleteComponent,
     FsAutocompleteTemplateDirective,
     FsAutocompleteSuffixDirective,
-    FsAutocompleteStaticTemplateDirective,
+    FsAutocompleteStaticDirective,
     FsAutocompleteNoResultsDirective
   ],
   declarations: [
     FsAutocompleteComponent,
     FsAutocompleteTemplateDirective,
     FsAutocompleteSuffixDirective,
-    FsAutocompleteStaticTemplateDirective,
+    FsAutocompleteStaticDirective,
     FsAutocompleteNoResultsDirective
   ],
   providers: [
