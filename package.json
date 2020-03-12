@@ -2,7 +2,7 @@
   "name": "@firestitch/autocomplete",
   "description": "@firestitch/autocomplete",
   "title": "Autocomplete",
-  "version": "8.4.2",
+  "version": "8.4.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-autocomplete"
