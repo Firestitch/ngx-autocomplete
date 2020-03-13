@@ -122,9 +122,12 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public search(event: KeyboardEvent, keyword) {
-
     if (event) {
       if (this._ignoreKeys.indexOf(event.key) >= 0) {
+        return;
+      }
+
+      if (event['relatedTarget'] && event['relatedTarget'].classList.contains('static-option')) {
         return;
       }
     }
