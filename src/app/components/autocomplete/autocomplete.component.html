@@ -13,7 +13,7 @@
     (input)="input($event)"
     (keydown)="keyDown($event)"
     (keyup)="keyUp($event)"
-    (ngModelChange)="change($event)"
+    (ngModelChange)="select($event)"
     [matAutocomplete]="userAutocompleteInput">
 
   <div *ngIf="!disabled" matSuffix>
@@ -58,9 +58,9 @@
       <mat-option
         *ngFor="let staticTemplate of staticTemplates; let i = index"
         class="static-option"
-        (click)="staticClick($event, i)"
+        [value]="{ staticOptionIndex: i }"
         [ngClass]="{ 'static-option-first': !i }">
-        <ng-template *ngTemplateOutlet="staticTemplate;context: { test: true }"></ng-template>
+        <ng-template *ngTemplateOutlet="staticTemplate"></ng-template>
       </mat-option>
     </ng-container>
   </mat-autocomplete>

@@ -2,7 +2,7 @@
   "name": "@firestitch/autocomplete",
   "description": "@firestitch/autocomplete",
   "title": "Autocomplete",
-  "version": "8.4.5",
+  "version": "8.6.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-autocomplete"
@@ -51,9 +51,11 @@
     "@firestitch/clear": "^8.0.0",
     "@firestitch/drawer": "^8.0.0",
     "@firestitch/example": "^8.0.0",
-    "@firestitch/form": "^7.5.4",
+    "@firestitch/form": "^8.7.0",
     "@firestitch/iframe": "^8.0.0",
     "@firestitch/menu": "^8.0.0",
+    "@firestitch/prompt": "^8.4.1",
+    "@firestitch/dialog": "^8.1.1",
     "@firestitch/message": "^8.0.0",
     "codelyzer": "^5.0.1",
     "cpx": "^1.5.0",

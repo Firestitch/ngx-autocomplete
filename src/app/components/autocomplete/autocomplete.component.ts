@@ -122,12 +122,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public search(event: KeyboardEvent, keyword) {
+
     if (event) {
       if (this._ignoreKeys.indexOf(event.key) >= 0) {
-        return;
-      }
-
-      if (event['relatedTarget'] && event['relatedTarget'].classList.contains('static-option')) {
         return;
       }
     }
@@ -152,20 +149,10 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public reload() {
-    this.search(null, this.keywordInput.nativeElement.value);
+    this.search(null, this._getKeyword());
   }
 
-
-  // Using this method because of MatAutocomplete updates model then focuses then
-  // calls optionSelected(event: MatAutocompleteSelectedEvent) and we need the model
-  // in focus() for fetchOnFocus
-  public change(event) {
-    if (isObject(event)) {
-      this.select(event);
-    }
-  }
-
-  public focus(e) {
+  public focus(e: KeyboardEvent) {
 
     if (this.readonly || this.disabled) {
       return;
@@ -173,7 +160,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
     if (this.fetchOnFocus) {
       if (!this.model) {
-        this.search(e, this.keywordInput.nativeElement.value);
+        this.search(e, this._getKeyword());
       }
     }
   }
@@ -188,8 +175,10 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       if (!this.model) {
         this.clear();
       }
+    }, 150);
 
-      this.data = [];
+    setTimeout(() => {
+      this.clearResults();
     }, 100);
   }
 
@@ -200,11 +189,22 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     return '';
   }
 
+  // Using this method because of MatAutocomplete updates model then focuses then
+  // calls optionSelected(event: MatAutocompleteSelectedEvent) and we need the model
+  // in focus() for fetchOnFocus
   public select(value) {
-    this.model = value;
-    this.data = [];
-    this._updateKeywordDisplay();
-    this._onChange(value);
+
+    if (isObject(value)) {
+      if (value.staticOptionIndex !== undefined) {
+        this.staticSelect(value.staticOptionIndex);
+      } else {
+        this.model = value;
+        this.data = [];
+        this._updateKeywordDisplay();
+        this._onChange(value);
+      }
+      this.clearResults();
+    }
   }
 
   public close() {
@@ -240,7 +240,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
 
     if (event.code === 'Tab') {
-      if (this.autocomplete.activeOption && this.autocomplete.activeOption.value) {
+      if (this.autocomplete.activeOption) {
         this.select(this.autocomplete.activeOption.value);
       }
 
@@ -260,13 +260,17 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
     if (event.code === 'Backspace' && !event.target.value.length) {
       this.clear();
+      this.reload();
     }
   }
 
   public staticClick(event: KeyboardEvent, index) {
+    this.staticSelect(index);
+  }
+
+  public staticSelect(index) {
     const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
-    staticDirective.click.emit(event);
-    this.autocomplete.closePanel();
+    staticDirective.selected.emit();
   }
 
   public ngOnDestroy() {
@@ -274,11 +278,15 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this._destroy$.complete();
   }
 
-  public clear() {
+  public clearResults() {
     this.data = [];
     this.noResults = false;
+    this.autocomplete.closePanel();
+  }
+
+  public clear() {
+    this.clearResults();
     this.model = null;
-    this.data = [];
     this.keyword = null;
     this._updateKeywordDisplay();
     this._onChange(null);
@@ -296,5 +304,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.keywordInput.nativeElement.value = value;
 
     this._cdRef.markForCheck();
+  }
+
+  private _getKeyword() {
+    return this.keywordInput.nativeElement.value;
   }
 }

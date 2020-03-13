@@ -1,3 +1,4 @@
+import { DialogComponent } from './components/dialog/dialog.component';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -37,14 +38,15 @@ import {
     ToastrModule.forRoot({ preventDuplicates: true }),
   ],
   entryComponents: [
+    DialogComponent
   ],
   declarations: [
     AppComponent,
 
     AutocompleteExampleComponent,
     AutocompleteLabelExampleComponent,
-  ],
-  providers: [
+
+    DialogComponent
   ],
 })
 export class PlaygroundModule {

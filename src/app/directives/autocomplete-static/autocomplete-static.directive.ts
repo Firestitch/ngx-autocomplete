@@ -5,5 +5,5 @@ import { Directive, Output, EventEmitter } from '@angular/core';
   selector: '[fsAutocompleteStatic],[fsAutocompleteStaticTemplate]'
 })
 export class FsAutocompleteStaticDirective {
-  @Output() click = new EventEmitter();
+  @Output() selected = new EventEmitter();
 }

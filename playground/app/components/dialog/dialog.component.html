@@ -1,0 +1,16 @@
+
+<div mat-dialog-title>Dialog</div>
+<mat-dialog-content>
+  <div fxLayout="column">
+    <mat-form-field>
+      <input
+        matInput
+        [(ngModel)]="test"
+        name="test"
+        placeholder="test">
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

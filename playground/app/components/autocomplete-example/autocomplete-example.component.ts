@@ -1,8 +1,10 @@
+import { DialogComponent } from './../dialog/dialog.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { of, from } from 'rxjs';
 import { FsMessage } from '@firestitch/message';
 import { FsAutocompleteComponent } from '@firestitch/autocomplete';
 import { filter, timeout, delay, map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -17,7 +19,8 @@ export class AutocompleteExampleComponent implements OnInit {
   //public model = { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  };
   public model = { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  };
 
-  constructor(private _message: FsMessage) {}
+  constructor(private _message: FsMessage,
+              private _dialog: MatDialog) {}
 
   private _list: { name: string, value: number, image: string }[] = [
     { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  },
@@ -51,8 +54,10 @@ export class AutocompleteExampleComponent implements OnInit {
     return data.name;
   };
 
-  public staticClick(event: KeyboardEvent, name) {
-    this._message.success(name + ' Clicked');
+  public staticClick(name) {
+    this._message.success(name + ' Selected');
+
+    this._dialog.open(DialogComponent);
   }
 
   public modelChange(event) {
