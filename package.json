@@ -54,7 +54,6 @@
     "@firestitch/form": "^8.7.0",
     "@firestitch/iframe": "^8.0.0",
     "@firestitch/menu": "^8.0.0",
-    "@firestitch/prompt": "^8.4.1",
     "@firestitch/dialog": "^8.1.1",
     "@firestitch/message": "^8.0.0",
     "codelyzer": "^5.0.1",
