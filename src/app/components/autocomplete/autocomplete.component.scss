@@ -19,3 +19,9 @@
 .clear {
   cursor: pointer;
 }
+
+:host ::ng-deep {
+  .mat-form-field-suffix {
+    align-self: flex-end;
+  }
+}
