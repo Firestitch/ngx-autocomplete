@@ -26,6 +26,7 @@ import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-t
 import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
 import { FsAutocompleteStaticDirective } from '../../directives/autocomplete-static/autocomplete-static.directive';
 import { FsAutocompleteNoResultsDirective } from '../../directives/no-results-template/no-results-template.directive';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 
 @Component({
@@ -99,14 +100,36 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   constructor(
     private _cdRef: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   public ngOnInit() {
+
     // Because the input display is set natively the delay
     // ensure its set after this.keyword
     setTimeout(() => {
       this.writeValue(this.ngModel);
     });
+
+    // _setValueAndClose() override to change the order of focus() and _onChange()
+    const autocompleteTrigger = (<any>this.autocomplete);
+    autocompleteTrigger._setValueAndClose = (event: MatOptionSelectionChange) => {
+
+      if (event && event.source) {
+        autocompleteTrigger._clearPreviousSelectedOption(event.source);
+        autocompleteTrigger._setTriggerValue(event.source.value);
+        autocompleteTrigger._onChange(event.source.value);
+        autocompleteTrigger.autocomplete._emitSelectEvent(event.source);
+
+        if (event.source.value.staticOptionIndex === undefined) {
+          autocompleteTrigger._element.nativeElement.focus();
+        }
+
+      } else {
+        this.model = null;
+      }
+
+      autocompleteTrigger.closePanel();
+    }
 
     this.keyword$
       .pipe(
@@ -157,12 +180,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
 
     if (this.fetchOnFocus) {
-      // HACK to delay the Material change autofocus event ordering
-      setTimeout(() => {
-        if (!this.model) {
-          this.search(e, this._getKeyword());
-        }
-      }, 100);
+      if (!this.model) {
+        this.search(e, this._getKeyword());
+      }
     }
   }
 
@@ -173,14 +193,13 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
 
     setTimeout(() => {
+
       if (!this.model) {
         this.clear();
       }
-    }, 150);
 
-    setTimeout(() => {
       this.clearResults();
-    }, 100);
+    }, 200);
   }
 
   public display = (data) => {
@@ -189,14 +208,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
     return '';
   }
-  // in focus() for fetchOnFocus
-  public selected(value: MatAutocompleteSelectedEvent) {
-    this.select(value.option.value);
-  }
 
-  // Using this method because of MatAutocomplete updates model then focuses then
-  // calls optionSelected(event: MatAutocompleteSelectedEvent) and we need the model
-  // in focus() for fetchOnFocus
   public select(value) {
     if (isObject(value) && value.staticOptionIndex !== undefined) {
       this.staticSelect(value.staticOptionIndex);
@@ -247,7 +259,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
 
     if (event.code === 'Tab') {
-      if (this.autocomplete.activeOption) {
+      if (!this.model && this.autocomplete.activeOption) {
         this.select(this.autocomplete.activeOption.value);
       }
 
@@ -278,10 +290,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public staticSelect(index) {
     const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
     staticDirective.selected.emit();
-    // HACK to delay the Material change autofocus event ordering
-    setTimeout(() => {
-      this.autocomplete.closePanel();
-    }, 250);
   }
 
   public ngOnDestroy() {
