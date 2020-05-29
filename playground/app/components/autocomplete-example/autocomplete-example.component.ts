@@ -1,9 +1,8 @@
-import { DialogComponent } from './../dialog/dialog.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { of, from } from 'rxjs';
+import { of } from 'rxjs';
 import { FsMessage } from '@firestitch/message';
 import { FsAutocompleteComponent } from '@firestitch/autocomplete';
-import { filter, timeout, delay, map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
 
@@ -36,6 +35,7 @@ export class AutocompleteExampleComponent implements OnInit {
   ];
 
   ngOnInit() {
+
   }
 
   public fetch = (name: string) => {

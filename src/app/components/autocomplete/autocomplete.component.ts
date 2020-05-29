@@ -173,7 +173,11 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.search(null, this._getKeyword());
   }
 
-  public focus(e: KeyboardEvent) {
+  public focus() {
+    this.keywordInput.nativeElement.focus();
+  }
+
+  public inputFocus(e: KeyboardEvent) {
 
     if (this.readonly || this.disabled) {
       return;
@@ -186,7 +190,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
   }
 
-  public blur() {
+  public inputBlur() {
 
     if (this.readonly || this.disabled) {
       return;
