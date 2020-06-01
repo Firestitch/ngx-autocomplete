@@ -71,6 +71,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public fetchOnFocus = false;
   @Input() public readonly = false;
   @Input() public ngModel;
+  @Input() public required = false;
 
   @Input('panelClass')
   set setPanelClass(value) {
