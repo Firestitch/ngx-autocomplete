@@ -124,9 +124,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
         if (event.source.value.staticOptionIndex === undefined) {
           autocompleteTrigger._element.nativeElement.focus();
         }
-
-      } else {
-        this.model = null;
       }
 
       autocompleteTrigger.closePanel();
@@ -302,14 +299,16 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this._destroy$.complete();
   }
 
-  public clearResults() {
+  public clearResults(closePanel = true) {
     this.data = [];
     this.noResults = false;
-    this.autocomplete.closePanel();
+    if (closePanel) {
+      this.autocomplete.closePanel();
+    }
   }
 
-  public clear() {
-    this.clearResults();
+  public clear(closePanel = true) {
+    this.clearResults(closePanel);
     this.model = null;
     this.keyword = null;
     this._updateKeywordDisplay();
@@ -318,7 +317,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   public clearClick(event: KeyboardEvent) {
     event.stopPropagation();
-    this.clear();
+    this.clear(false);
     this.keywordInput.nativeElement.focus();
     this.cleared.emit();
   }
