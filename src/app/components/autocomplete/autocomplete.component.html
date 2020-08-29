@@ -1,4 +1,5 @@
 <mat-form-field>
+
   <input
     #keywordInput
     matInput
@@ -42,7 +43,7 @@
       </ng-container>
     </mat-option>
 
-    <ng-container *ngIf="noResults">
+    <ng-container *ngIf="noResults && !searching">
       <ng-template
         *ngIf="noResultsTemplate; else noResultsOption"
         [ngTemplateOutlet]="noResultsTemplate"
@@ -55,7 +56,7 @@
       </ng-template>
     </ng-container>
 
-    <ng-container *ngIf="!model && (!searching || keyword)">
+    <ng-container *ngIf="!model && (!searching || keyword) && !searching">
       <mat-option
         *ngFor="let staticTemplate of staticTemplates; let i = index"
         class="static-option"

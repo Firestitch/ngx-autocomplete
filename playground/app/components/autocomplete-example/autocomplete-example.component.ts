@@ -9,17 +9,18 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'autocomplete-example',
   templateUrl: 'autocomplete-example.component.html',
-  styleUrls: ['autocomplete-example.component.scss']
+  styleUrls: ['autocomplete-example.component.scss'],
 })
 export class AutocompleteExampleComponent implements OnInit {
 
-  @ViewChild('autocomplete', { static: true }) autocomplete: FsAutocompleteComponent;
+  @ViewChild('autocomplete', { static: true })
+  public autocomplete: FsAutocompleteComponent;
 
-  //public model = { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  };
-  public model = { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  };
+  public model;
 
-  constructor(private _message: FsMessage,
-              private _dialog: MatDialog) {}
+  constructor(
+    private _message: FsMessage,
+  ) { }
 
   private _list: { name: string, value: number, image: string }[] = [
     { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  },
@@ -39,10 +40,12 @@ export class AutocompleteExampleComponent implements OnInit {
   }
 
   public fetch = (name: string) => {
+
     return of(this._list)
     .pipe(
-      delay(150),
+      delay(300),
       map((data) => {
+        console.log('test');
         return data.filter(item => {
           return item.name.toLowerCase().indexOf(name.toLowerCase()) !== -1;
         });
@@ -56,8 +59,6 @@ export class AutocompleteExampleComponent implements OnInit {
 
   public staticClick(name) {
     this._message.success(name + ' Selected');
-
-    //this._dialog.open(DialogComponent);
   }
 
   public modelChange(event) {
@@ -66,5 +67,9 @@ export class AutocompleteExampleComponent implements OnInit {
 
   public onProceed(data) {
     console.log(data);
+  }
+
+  public focus() {
+    this.autocomplete.focus();
   }
 }
