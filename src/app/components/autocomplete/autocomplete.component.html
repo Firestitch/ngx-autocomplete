@@ -19,7 +19,7 @@
 
   <div *ngIf="!disabled" matSuffix>
     <mat-icon
-      *ngIf="model"
+      *ngIf="showClear && model"
       class="clear"
       (click)="clearClick($event)">clear</mat-icon>
 

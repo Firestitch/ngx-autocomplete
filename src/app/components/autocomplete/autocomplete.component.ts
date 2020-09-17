@@ -78,6 +78,15 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.panelClasses.push(value);
   }
 
+  @Input() public set showClear(value: boolean) {
+    this._showClear = value;
+    this._cdRef.detectChanges();
+  }
+
+  public get showClear(): boolean {
+    return this._showClear;
+  }
+
   @Output() public cleared = new EventEmitter();
 
   public disabled = false;
@@ -89,6 +98,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public model = null;
   public searching = false;
 
+  private _showClear = true;
   private _destroy$ = new Subject();
   private _keyword$ = new Subject();
   private _ignoreKeys = ['Enter', 'Escape', 'ArrowUp', 'ArrowLeft', 'ArrowRight',
