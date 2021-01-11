@@ -18,15 +18,15 @@
     [matAutocomplete]="userAutocompleteInput">
 
   <div *ngIf="!disabled" matSuffix>
-    <mat-icon
-      *ngIf="showClear && model"
-      class="clear"
-      (click)="clearClick($event)">clear</mat-icon>
-
     <ng-container
       [ngTemplateOutlet]="suffix"
       [ngTemplateOutletContext]="{ data: ngModel }">
     </ng-container>
+
+    <mat-icon
+      *ngIf="showClear && model"
+      class="clear"
+      (click)="clearClick($event)">clear</mat-icon>
   </div>
 
   <mat-autocomplete
