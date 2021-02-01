@@ -49,8 +49,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @ContentChild(FsAutocompleteTemplateDirective, { read: TemplateRef, static: true })
   public template: TemplateRef<FsAutocompleteTemplateDirective> = null;
 
-  @ContentChildren(FsAutocompleteStaticDirective, { read: TemplateRef })
-  public staticTemplates: TemplateRef<FsAutocompleteStaticDirective>[] = null;
+  @ContentChildren(FsAutocompleteStaticDirective)
+  public staticTemplates: FsAutocompleteStaticDirective[] = null;
 
   @ContentChildren(FsAutocompleteStaticDirective)
   public staticDirectives: QueryList<FsAutocompleteStaticDirective>;
