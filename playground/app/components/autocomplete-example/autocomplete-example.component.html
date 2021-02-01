@@ -23,6 +23,10 @@
       </mat-option>
     </ng-template>
 
+    <ng-template fsAutocompleteStatic let-keyword>
+      Custom Static {{keyword}}
+    </ng-template>
+
     <ng-template fsAutocompleteStatic (selected)="staticClick('Cash or Cheque')">
       Cash or Cheque
     </ng-template>

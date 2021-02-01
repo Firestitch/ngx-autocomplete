@@ -47,7 +47,7 @@
       <ng-template
         *ngIf="noResultsTemplate; else noResultsOption"
         [ngTemplateOutlet]="noResultsTemplate"
-        [ngTemplateOutletContext]="{ keyword: keyword }">
+        [ngTemplateOutletContext]="{ $implicit: keyword }">
       </ng-template>
       <ng-template #noResultsOption>
         <mat-option disabled class="no-results">
@@ -62,7 +62,10 @@
         class="static-option"
         [value]="{ staticOptionIndex: i }"
         [ngClass]="{ 'static-option-first': !i }">
-        <ng-template *ngTemplateOutlet="staticTemplate"></ng-template>
+        <ng-template
+          [ngTemplateOutlet]="staticTemplate"
+          [ngTemplateOutletContext]="{ $implicit: keyword }"
+        ></ng-template>
       </mat-option>
     </ng-container>
   </mat-autocomplete>
