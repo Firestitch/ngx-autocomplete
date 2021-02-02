@@ -72,6 +72,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public readonly = false;
   @Input() public ngModel;
   @Input() public required = false;
+  @Input() public disabled = false;
   @Input() public hint: string = null;
 
   @Input('panelClass')
@@ -90,7 +91,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   @Output() public cleared = new EventEmitter();
 
-  public disabled = false;
   public data: any[] = [];
   public keyword = '';
   public panelClasses = ['fs-autocomplete-panel'];
