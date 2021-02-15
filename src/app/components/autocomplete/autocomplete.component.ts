@@ -268,7 +268,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
         this.select(this.autocomplete.activeOption.value);
       }
 
-    } else {
+    } else if (!this._isWindows() && !this._isMacOS()) {
 
       if (this._ignoreKeys.indexOf(event.key) === -1) {
         this.searching = true;
@@ -338,6 +338,14 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   private _getKeyword() {
     return this.keywordInput.nativeElement.value;
+  }
+
+  private _isMacOS() {
+    return navigator.platform.indexOf('Mac') > -1;
+  }
+
+  private _isWindows() {
+    return navigator.platform.indexOf('Win') > -1;
   }
 
 }
