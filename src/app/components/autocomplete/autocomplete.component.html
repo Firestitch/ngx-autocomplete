@@ -1,9 +1,8 @@
 <mat-form-field>
-
   <input
     #keywordInput
     matInput
-    type="text"
+    type="search"
     [placeholder]="placeholder"
     [(ngModel)]="keyword"
     [name]="name"
@@ -43,31 +42,33 @@
       </ng-container>
     </mat-option>
 
-    <ng-container *ngIf="noResults && !searching">
-      <ng-template
-        *ngIf="noResultsTemplate; else noResultsOption"
-        [ngTemplateOutlet]="noResultsTemplate"
-        [ngTemplateOutletContext]="{ $implicit: keyword }">
-      </ng-template>
-      <ng-template #noResultsOption>
-        <mat-option disabled class="no-results">
-          No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
-        </mat-option>
-      </ng-template>
-    </ng-container>
-
-    <ng-container *ngIf="!model && (!searching || keyword) && !searching">
-      <ng-container *ngFor="let staticTemplate of staticTemplates; let i = index">
-        <ng-container *ngIf="!staticTemplate.showWhenKeyword || !!keyword">
-          <mat-option
-            class="static-option"
-            [value]="{ staticOptionIndex: i }"
-            [ngClass]="{ 'static-option-first': !i }">
-            <ng-template
-              [ngTemplateOutlet]="staticTemplate.templateRef"
-              [ngTemplateOutletContext]="{ $implicit: keyword }"
-            ></ng-template>
+    <ng-container *ngIf="!searching">
+      <ng-container *ngIf="noResults">
+        <ng-template
+          *ngIf="noResultsTemplate; else noResultsOption"
+          [ngTemplateOutlet]="noResultsTemplate"
+          [ngTemplateOutletContext]="{ $implicit: keyword }">
+        </ng-template>
+        <ng-template #noResultsOption>
+          <mat-option disabled class="no-results">
+            No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
           </mat-option>
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngIf="!model && (!searching || keyword)">
+        <ng-container *ngFor="let staticTemplate of staticTemplates; let i = index">
+          <ng-container *ngIf="!staticTemplate.showWhenKeyword || !!keyword">
+            <mat-option
+              class="static-option"
+              [value]="{ staticOptionIndex: i }"
+              [ngClass]="{ 'static-option-first': !i }">
+              <ng-template
+                [ngTemplateOutlet]="staticTemplate.templateRef"
+                [ngTemplateOutletContext]="{ $implicit: keyword }"
+              ></ng-template>
+            </mat-option>
+          </ng-container>
         </ng-container>
       </ng-container>
     </ng-container>
