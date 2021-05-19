@@ -16,17 +16,20 @@ import {
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 import { debounceTime, takeUntil, switchMap, tap, filter } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
+
 import { trim, random, isObject } from 'lodash-es';
 
 import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
 import { FsAutocompleteStaticDirective } from '../../directives/autocomplete-static/autocomplete-static.directive';
 import { FsAutocompleteNoResultsDirective } from '../../directives/no-results-template/no-results-template.directive';
-import { MatOptionSelectionChange } from '@angular/material/core';
+import { FsAutocompleteHintDirective } from '../../directives/autocomplete-hint/autocomplete-hint.directive';
 
 
 @Component({
@@ -60,6 +63,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   @ContentChild(FsAutocompleteSuffixDirective, { read: TemplateRef, static: true })
   public suffix: TemplateRef<FsAutocompleteSuffixDirective> = null;
+
+  @ContentChild(FsAutocompleteHintDirective, { read: TemplateRef, static: true })
+  public hintTemplate: TemplateRef<FsAutocompleteHintDirective> = null;
 
   @HostBinding('class.fs-form-wrapper') formWrapper = true;
 
@@ -120,6 +126,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     // ensure its set after this.keyword
     setTimeout(() => {
       this.writeValue(this.ngModel);
+      console.log(this.hintTemplate);
     });
 
     // _setValueAndClose() override to change the order of focus() and _onChange()

@@ -15,3 +15,4 @@ export { FsAutocompleteSuffixDirective } from './app/directives/autocomplete-suf
 export { FsAutocompleteNoResultsDirective } from './app/directives/no-results-template/no-results-template.directive';
 export { FsAutocompleteTemplateDirective } from './app/directives/autocomplete-template/autocomplete-template.directive';
 export { FsAutocompleteStaticDirective } from './app/directives/autocomplete-static/autocomplete-static.directive';
+export { FsAutocompleteHintDirective } from './app/directives/autocomplete-hint/autocomplete-hint.directive';

@@ -75,4 +75,9 @@
   </mat-autocomplete>
 
   <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <mat-hint *ngIf="hintTemplate">
+    <ng-container
+      [ngTemplateOutlet]="hintTemplate">
+    </ng-container>
+  </mat-hint>
 </mat-form-field>
