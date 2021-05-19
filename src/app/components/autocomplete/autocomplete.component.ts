@@ -126,7 +126,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     // ensure its set after this.keyword
     setTimeout(() => {
       this.writeValue(this.ngModel);
-      console.log(this.hintTemplate);
     });
 
     // _setValueAndClose() override to change the order of focus() and _onChange()
