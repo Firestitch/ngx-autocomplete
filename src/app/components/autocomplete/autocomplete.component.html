@@ -51,10 +51,7 @@
         </ng-template>
         <ng-template #noResultsOption>
           <mat-option disabled class="no-results">
-            <ng-container *ngIf="noResultsLabel">{{ noResultsLabel }}</ng-container>
-            <ng-container *ngIf="!noResultsLabel">
-              No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
-            </ng-container>
+            No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
           </mat-option>
         </ng-template>
       </ng-container>
