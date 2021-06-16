@@ -20,23 +20,13 @@
   cursor: pointer;
 }
 
+mat-label::after {
+  content: attr(data-after-content);
+}
+
 :host ::ng-deep {
   .mat-form-field-suffix {
     align-self: flex-end;
-  }
-}
-
-:host {
-  ::ng-deep {
-    mat-form-field .mat-form-field {
-      &-underline {
-        position: relative;
-        bottom: auto;
-      }
-      &-subscript-wrapper {
-        position: static;
-      }
-    }
   }
 }
 

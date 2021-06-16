@@ -3,7 +3,6 @@ import { of } from 'rxjs';
 import { FsMessage } from '@firestitch/message';
 import { FsAutocompleteComponent } from '@firestitch/autocomplete';
 import { delay, map } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -17,6 +16,7 @@ export class AutocompleteExampleComponent implements OnInit {
   public autocomplete: FsAutocompleteComponent;
 
   public model;
+  public city;
 
   constructor(
     private _message: FsMessage,

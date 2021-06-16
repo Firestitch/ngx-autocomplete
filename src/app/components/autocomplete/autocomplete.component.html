@@ -1,9 +1,9 @@
 <mat-form-field>
+  <mat-label [attr.data-after-content]="placeholder"></mat-label>
   <input
     #keywordInput
     matInput
     type="search"
-    [placeholder]="placeholder"
     [(ngModel)]="keyword"
     [name]="name"
     [disabled]="disabled"

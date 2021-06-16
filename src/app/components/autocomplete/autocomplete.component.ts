@@ -121,7 +121,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   ) {}
 
   public ngOnInit() {
-
     // Because the input display is set natively the delay
     // ensure its set after this.keyword
     setTimeout(() => {
