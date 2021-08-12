@@ -15,12 +15,12 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatOptionSelectionChange } from '@angular/material/core';
 
-import { debounceTime, takeUntil, switchMap, tap, filter } from 'rxjs/operators';
+import { debounceTime, takeUntil, switchMap, tap, filter, ignoreElements } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 
 import { trim, random, isObject } from 'lodash-es';
@@ -67,9 +67,14 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @ContentChild(FsAutocompleteHintDirective, { read: TemplateRef, static: true })
   public hintTemplate: TemplateRef<FsAutocompleteHintDirective> = null;
 
-  @HostBinding('class.fs-form-wrapper') formWrapper = true;
+  @HostBinding('class.fs-form-wrapper') 
+  public formWrapper = true;
 
-  @ViewChild('keywordInput', { static: true }) keywordInput: ElementRef;
+  @ViewChild('keywordInput', { static: true }) 
+  public keywordInput: ElementRef;
+
+  @ViewChild('keywordNgModel', { static: true }) 
+  public keywordNgModel: NgModel;
 
   @Input() public fetch: Function = null;
   @Input() public placeholder = '';
@@ -108,8 +113,10 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   private _showClear = true;
   private _destroy$ = new Subject();
   private _keyword$ = new Subject();
-  private _ignoreKeys = ['Enter', 'Escape', 'ArrowUp', 'ArrowLeft', 'ArrowRight',
-                          'ArrowDown', 'Alt', 'Control', 'Shift', 'Tab']
+  private _ignoreKeys = [
+    'Enter', 'Escape', 'ArrowUp', 'ArrowLeft', 'ArrowRight',
+    'ArrowDown', 'Alt', 'Control', 'Shift',
+  ];
   private _onTouched = () => { };
   private _onChange = (value: any) => {};
 
@@ -130,16 +137,14 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     // _setValueAndClose() override to change the order of focus() and _onChange()
     const autocompleteTrigger = (<any>this.autocomplete);
     autocompleteTrigger._setValueAndClose = (event: MatOptionSelectionChange) => {
-
       if (event && event.source) {
-        autocompleteTrigger._clearPreviousSelectedOption(event.source);
-        autocompleteTrigger._setTriggerValue(event.source.value);
-        autocompleteTrigger._onChange(event.source.value);
-        autocompleteTrigger.autocomplete._emitSelectEvent(event.source);
-
         if (event.source.value.staticOptionIndex === undefined) {
-          autocompleteTrigger._element.nativeElement.focus();
+          autocompleteTrigger._clearPreviousSelectedOption(event.source);
+          autocompleteTrigger._setTriggerValue(event.source.value);
+          autocompleteTrigger._onChange(event.source.value);
         }
+
+        autocompleteTrigger.autocomplete._emitSelectEvent(event.source);
       }
 
       autocompleteTrigger.closePanel();
@@ -197,17 +202,16 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public inputBlur() {
-
     if (this.readonly || this.disabled) {
       return;
     }
 
     setTimeout(() => {
-
       if (!this.model) {
-        this.clear();
+        this.clearKeyword();
       }
 
+      this._updateKeywordDisplay();
       this.clearResults();
     }, 200);
   }
@@ -228,6 +232,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       this._updateKeywordDisplay();
       this._onChange(value);
     }
+
     this.clearResults();
   }
 
@@ -270,7 +275,13 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
     if (event.code === 'Tab') {
       if (!this.model && this.autocomplete.activeOption) {
+        this.keyword = 'dummy';      
         this.select(this.autocomplete.activeOption.value);
+      }
+    } else if (event.code === 'Backspace') {
+      if (this.model) {
+        this.model = null;
+        this.clearKeyword();
       }
 
     } else if (!this._isWindows() && !this._isMacOS()) {
@@ -286,7 +297,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public keyUp(event: any) {
-
     if (this.readonly || this.disabled) {
       return;
     }
@@ -297,11 +307,11 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
   }
 
-  public staticClick(event: KeyboardEvent, index) {
-    this.staticSelect(index);
-  }
-
   public staticSelect(index) {
+    if(!this.model) {
+      this.keywordNgModel.reset();
+    }
+
     const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
     staticDirective.selected.emit();
   }
@@ -314,17 +324,22 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public clearResults(closePanel = true) {
     this.data = [];
     this.noResults = false;
+    
     if (closePanel) {
       this.autocomplete.closePanel();
     }
   }
 
   public clear(closePanel = true) {
-    this.clearResults(closePanel);
     this.model = null;
+    this.clearResults(closePanel);    
+    this.clearKeyword();
+    this._onChange(null);
+  }
+
+  public clearKeyword() {
     this.keyword = null;
     this._updateKeywordDisplay();
-    this._onChange(null);
   }
 
   public clearClick(event: KeyboardEvent) {
@@ -337,7 +352,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   private _updateKeywordDisplay() {
     const value = this.model ? this.display(this.model) : '';
     this.keywordInput.nativeElement.value = value;
-
     this._cdRef.markForCheck();
   }
 

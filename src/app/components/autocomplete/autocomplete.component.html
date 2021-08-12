@@ -2,6 +2,7 @@
   <mat-label [attr.data-after-content]="placeholder"></mat-label>
   <input
     #keywordInput
+    #keywordNgModel="ngModel"
     matInput
     type="search"
     [(ngModel)]="keyword"
