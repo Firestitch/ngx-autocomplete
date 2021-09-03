@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { of } from 'rxjs';
 import { FsMessage } from '@firestitch/message';
 import { FsAutocompleteComponent } from '@firestitch/autocomplete';
-import { delay, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -35,15 +35,13 @@ export class AutocompleteExampleComponent implements OnInit {
     { name: 'Howard', value: 4, image: 'https://randomuser.me/api/portraits/men/99.jpg' }
   ];
 
-  ngOnInit() {
-
+  public ngOnInit() {
+    this.model = this._list[0];
   }
 
   public fetch = (name: string) => {
-
     return of(this._list)
     .pipe(
-      delay(300),
       map((data) => {
         console.log('test');
         return data.filter(item => {

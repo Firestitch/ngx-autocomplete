@@ -20,8 +20,8 @@ import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms
 import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatOptionSelectionChange } from '@angular/material/core';
 
-import { debounceTime, takeUntil, switchMap, tap, filter, ignoreElements } from 'rxjs/operators';
-import { Subject, Observable } from 'rxjs';
+import { debounceTime, takeUntil, switchMap, tap, filter } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { trim, random, isObject } from 'lodash-es';
 
@@ -81,7 +81,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public displayWith: Function = null;
   @Input() public fetchOnFocus = false;
   @Input() public readonly = false;
-  @Input() public ngModel;
   @Input() public required = false;
   @Input() public disabled = false;
   @Input() public hint: string = null;
@@ -131,7 +130,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     // Because the input display is set natively the delay
     // ensure its set after this.keyword
     setTimeout(() => {
-      this.writeValue(this.ngModel);
+      this._updateKeywordDisplay();
     });
 
     // _setValueAndClose() override to change the order of focus() and _onChange()

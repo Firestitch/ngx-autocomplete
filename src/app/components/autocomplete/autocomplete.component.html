@@ -20,7 +20,7 @@
   <div *ngIf="!disabled" matSuffix>
     <ng-container
       [ngTemplateOutlet]="suffix"
-      [ngTemplateOutletContext]="{ data: ngModel }">
+      [ngTemplateOutletContext]="{ data: model }">
     </ng-container>
 
     <mat-icon
