@@ -57,7 +57,9 @@
         </ng-template>
       </ng-container>
 
-      <ng-container *ngIf="!model && (!searching || keyword)">
+      <div 
+          *ngIf="!model && (!searching || keyword) && staticTemplates.length"
+          class="static-templates">
         <ng-container *ngFor="let staticTemplate of staticTemplates; let i = index">
           <ng-container *ngIf="!staticTemplate.showWhenKeyword || !!keyword">
             <mat-option
@@ -71,7 +73,7 @@
             </mat-option>
           </ng-container>
         </ng-container>
-      </ng-container>
+      </div>
     </ng-container>
   </mat-autocomplete>
 

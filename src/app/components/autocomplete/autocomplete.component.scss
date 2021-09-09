@@ -1,10 +1,12 @@
 
 ::ng-deep .fs-autocomplete-panel {
-  .mat-option.static-option {
 
-    &.static-option-first {
-      border-top: 1px solid #e0e0e0;
-    }
+  .static-templates {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
   }
 
   &.mat-autocomplete-hidden {
