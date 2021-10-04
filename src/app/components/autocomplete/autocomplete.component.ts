@@ -84,6 +84,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public required = false;
   @Input() public disabled = false;
   @Input() public hint: string = null;
+  @Input() public appearance: string = 'standard';
 
   @Input('panelClass')
   set setPanelClass(value) {
