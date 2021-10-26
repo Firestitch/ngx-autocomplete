@@ -57,23 +57,23 @@
         </ng-template>
       </ng-container>
 
-      <div 
-          *ngIf="!model && (!searching || keyword) && staticTemplates.length"
-          class="static-templates">
-        <ng-container *ngFor="let staticTemplate of staticTemplates; let i = index">
-          <ng-container *ngIf="!staticTemplate.showWhenKeyword || !!keyword">
-            <mat-option
-              class="static-option"
-              [value]="{ staticOptionIndex: i }"
-              [ngClass]="{ 'static-option-first': !i }">
-              <ng-template
-                [ngTemplateOutlet]="staticTemplate.templateRef"
-                [ngTemplateOutletContext]="{ $implicit: keyword }"
-              ></ng-template>
-            </mat-option>
+      <ng-container *ngIf="!model && (!searching || keyword) && staticTemplates?.length">
+        <div class="static-templates">
+          <ng-container *ngFor="let staticTemplate of staticTemplates; let i = index">
+            <ng-container *ngIf="!staticTemplate.showWhenKeyword || !!keyword">
+              <mat-option
+                class="static-option"
+                [value]="{ staticOptionIndex: i }"
+                [ngClass]="{ 'static-option-first': !i }">
+                <ng-template
+                  [ngTemplateOutlet]="staticTemplate.templateRef"
+                  [ngTemplateOutletContext]="{ $implicit: keyword }"
+                ></ng-template>
+              </mat-option>
+            </ng-container>
           </ng-container>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
     </ng-container>
   </mat-autocomplete>
 
