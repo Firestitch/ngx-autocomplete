@@ -350,7 +350,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   private _updateKeywordDisplay() {
     const value = this.model ? this.display(this.model) : '';
-    this.keyword = value;
+    this.keyword = this.model;
     this.keywordInput.nativeElement.value = value;
     this._cdRef.markForCheck();
   }
