@@ -32,6 +32,7 @@
   <mat-autocomplete
     #userAutocompleteInput="matAutocomplete"
     [autoActiveFirstOption]="true"
+    [panelWidth]="panelWidth"
     [class]="panelClasses.join(' ')"
     [displayWith]="display"
     (optionSelected)="optionSelected($event)">
