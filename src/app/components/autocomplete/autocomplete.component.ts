@@ -27,6 +27,7 @@ import { trim, random, isObject } from 'lodash-es';
 
 import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
+import { FsAutocompletePrefixDirective } from '../../directives/autocomplete-prefix/autocomplete-prefix.directive';
 import { FsAutocompleteStaticDirective } from '../../directives/autocomplete-static/autocomplete-static.directive';
 import { FsAutocompleteNoResultsDirective } from '../../directives/no-results-template/no-results-template.directive';
 import { FsAutocompleteHintDirective } from '../../directives/autocomplete-hint/autocomplete-hint.directive';
@@ -64,6 +65,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @ContentChild(FsAutocompleteSuffixDirective, { read: TemplateRef, static: true })
   public suffix: TemplateRef<FsAutocompleteSuffixDirective> = null;
 
+  @ContentChild(FsAutocompletePrefixDirective, { read: TemplateRef, static: true })
+  public prefix: TemplateRef<FsAutocompletePrefixDirective> = null;
+
   @ContentChild(FsAutocompleteHintDirective, { read: TemplateRef, static: true })
   public hintTemplate: TemplateRef<FsAutocompleteHintDirective> = null;
 
@@ -83,6 +87,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public readonly = false;
   @Input() public required = false;
   @Input() public disabled = false;
+  @Input() public appearance: 'legacy' | 'outline' | 'fill' | 'standard' = 'legacy';
   @Input() public hint: string = null;
   @Input()
   public panelWidth: string | number = null;

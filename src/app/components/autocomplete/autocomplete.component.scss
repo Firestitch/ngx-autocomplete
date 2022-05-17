@@ -1,6 +1,5 @@
 
 ::ng-deep .fs-autocomplete-panel {
-
   .static-templates {
     position: sticky;
     bottom: 0;
@@ -22,13 +21,7 @@
   cursor: pointer;
 }
 
-mat-label::after {
-  content: attr(data-after-content);
-}
-
-:host ::ng-deep {
-  .mat-form-field-suffix {
-    align-self: flex-end;
-  }
+.suffix {
+  display: flex;
 }
 

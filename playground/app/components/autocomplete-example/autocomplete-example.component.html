@@ -5,6 +5,7 @@
     [displayWith]="displayWith"
     [fetchOnFocus]="true"
     [(ngModel)]="model"
+    appearance="outline"
     placeholder="Autocomplete"
     (ngModelChange)="modelChange($event)"
     [required]="true"
@@ -40,6 +41,10 @@
         *ngIf="data && data.value"
         (click)="onProceed(data)">launch
       </mat-icon>
+    </ng-template>
+
+    <ng-template fsAutocompletePrefix let-data="data">
+      <mat-icon>settings</mat-icon>
     </ng-template>
 
     <ng-template fsAutocompleteHint>

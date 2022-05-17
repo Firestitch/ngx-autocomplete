@@ -1,5 +1,5 @@
-<mat-form-field>
-  <mat-label [attr.data-after-content]="placeholder"></mat-label>
+<mat-form-field [appearance]="appearance">
+  <mat-label>{{placeholder}}</mat-label>
   <input
     #keywordInput
     #keywordNgModel="ngModel"
@@ -16,17 +16,23 @@
     (keydown)="keyDown($event)"
     (keyup)="keyUp($event)"
     [matAutocomplete]="userAutocompleteInput">
-
-  <div *ngIf="!disabled" matSuffix>
+  <div *ngIf="prefix" matPrefix class="prefix">
+    <ng-container
+      [ngTemplateOutlet]="prefix"
+      [ngTemplateOutletContext]="{ data: model }">
+    </ng-container>
+  </div>
+  <div *ngIf="!disabled" matSuffix class="suffix">
     <ng-container
       [ngTemplateOutlet]="suffix"
       [ngTemplateOutletContext]="{ data: model }">
     </ng-container>
-
     <mat-icon
-      *ngIf="showClear && model"
-      class="clear"
-      (click)="clearClick($event)">clear</mat-icon>
+        *ngIf="showClear && model"
+        class="clear"
+        (click)="clearClick($event)">
+      clear
+    </mat-icon>
   </div>
 
   <mat-autocomplete
