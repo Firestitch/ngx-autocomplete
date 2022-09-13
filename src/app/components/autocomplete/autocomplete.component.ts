@@ -281,7 +281,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
     if (event.code === 'Tab') {
       if (!this.model && this.autocomplete.activeOption) {
-        this.keyword = 'dummy';      
         this.select(this.autocomplete.activeOption.value);
       }
     } else if (event.code === 'Backspace') {
@@ -314,12 +313,13 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public staticSelect(index) {
+    const keyword = this.keyword;
     if(!this.model) {
       this.keywordNgModel.reset();
     }
 
     const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
-    staticDirective.selected.emit();
+    staticDirective.selected.emit(keyword);
   }
 
   public ngOnDestroy() {

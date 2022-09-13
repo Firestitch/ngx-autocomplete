@@ -32,8 +32,8 @@
       Cash or Cheque
     </ng-template>
 
-    <ng-template fsAutocompleteStatic (selected)="staticClick('Email Money Transfer')">
-      Email Money Transfer
+    <ng-template fsAutocompleteStatic let-keyword (selected)="staticClick($event)">
+      Just Use "{{keyword}}"
     </ng-template>
 
     <ng-template fsAutocompleteSuffix let-data="data">

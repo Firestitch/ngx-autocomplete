@@ -9,7 +9,7 @@ export class FsAutocompleteStaticDirective {
   @Input()
   public showWhenKeyword = false
 
-  @Output() selected = new EventEmitter();
+  @Output() selected = new EventEmitter<string>();
 
   constructor(public templateRef: TemplateRef<any>) {
   }
