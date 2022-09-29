@@ -37,6 +37,7 @@ import { FsAutocompleteHintDirective } from '../../directives/autocomplete-hint/
   selector: 'fs-autocomplete',
   templateUrl: 'autocomplete.component.html',
   styleUrls: [ 'autocomplete.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -44,7 +45,6 @@ import { FsAutocompleteHintDirective } from '../../directives/autocomplete-hint/
       multi: true
     }
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
