@@ -39,6 +39,8 @@
     #userAutocompleteInput="matAutocomplete"
     [autoActiveFirstOption]="true"
     [panelWidth]="panelWidth"
+    (opened)="opened.emit()"
+    (closed)="closed.emit()"
     [class]="panelClasses.join(' ')"
     [displayWith]="display"
     (optionSelected)="optionSelected($event)">

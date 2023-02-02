@@ -107,6 +107,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   @Output() public cleared = new EventEmitter();
+  @Output() public opened = new EventEmitter<void>();
+  @Output() public closed = new EventEmitter<void>();
 
   public data: any[] = [];
   public keyword = '';
