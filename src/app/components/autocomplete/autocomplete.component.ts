@@ -35,8 +35,8 @@ import { FsAutocompleteHintDirective } from '../../directives/autocomplete-hint/
 
 @Component({
   selector: 'fs-autocomplete',
-  templateUrl: 'autocomplete.component.html',
-  styleUrls: [ 'autocomplete.component.scss' ],
+  templateUrl: './autocomplete.component.html',
+  styleUrls: [ './autocomplete.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -60,16 +60,16 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public staticDirectives: QueryList<FsAutocompleteStaticDirective>;
 
   @ContentChild(FsAutocompleteNoResultsDirective, { read: TemplateRef, static: true })
-  public noResultsTemplate: TemplateRef<FsAutocompleteNoResultsDirective>[] = null;
+  public noResultsTemplate: TemplateRef<any>;
 
   @ContentChild(FsAutocompleteSuffixDirective, { read: TemplateRef, static: true })
-  public suffix: TemplateRef<FsAutocompleteSuffixDirective> = null;
+  public suffix: TemplateRef<any> = null;
 
   @ContentChild(FsAutocompletePrefixDirective, { read: TemplateRef, static: true })
-  public prefix: TemplateRef<FsAutocompletePrefixDirective> = null;
+  public prefix: TemplateRef<any> = null;
 
   @ContentChild(FsAutocompleteHintDirective, { read: TemplateRef, static: true })
-  public hintTemplate: TemplateRef<FsAutocompleteHintDirective> = null;
+  public hintTemplate: TemplateRef<any> = null;
 
   @HostBinding('class.fs-form-wrapper') 
   public formWrapper = true;
@@ -196,8 +196,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.keywordInput.nativeElement.focus();
   }
 
-  public inputFocus(e: KeyboardEvent) {
-
+  public inputFocus(e: FocusEvent) {
     if (this.readonly || this.disabled) {
       return;
     }
@@ -350,7 +349,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this._updateKeywordDisplay();
   }
 
-  public clearClick(event: KeyboardEvent) {
+  public clearClick(event: MouseEvent) {
     event.stopPropagation();
     this.clear(false);
     this.keywordInput.nativeElement.focus();

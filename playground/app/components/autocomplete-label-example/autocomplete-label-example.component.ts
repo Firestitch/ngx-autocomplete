@@ -21,7 +21,7 @@ export class AutocompleteLabelExampleComponent implements OnInit {
     { name: 'Dave', value: 4, avatar: '' }
   ];
 
-  public filteredOptions: Observable<{ name: string, value: number }[]>;
+  public filteredOptions: Observable<{ name: string, value: number, avatar: any }[]>;
 
   constructor() {}
 
