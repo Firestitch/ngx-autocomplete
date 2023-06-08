@@ -76,8 +76,8 @@
                 [ngClass]="{ 'static-option-first': !i }">
                 <ng-template
                   [ngTemplateOutlet]="staticTemplate.templateRef"
-                  [ngTemplateOutletContext]="{ $implicit: keyword }"
-                ></ng-template>
+                  [ngTemplateOutletContext]="{ $implicit: keyword }">
+                </ng-template>
               </mat-option>
             </ng-container>
           </ng-container>
