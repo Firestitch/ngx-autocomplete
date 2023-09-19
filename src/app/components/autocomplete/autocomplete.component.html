@@ -5,6 +5,8 @@
     #keywordNgModel="ngModel"
     matInput
     type="search"
+    [fsClear]="showClear && model"
+    (cleared)="clearClick($event)"
     [(ngModel)]="keyword"
     [name]="name"
     [disabled]="disabled"
@@ -27,12 +29,6 @@
       [ngTemplateOutlet]="suffix"
       [ngTemplateOutletContext]="{ data: model }">
     </ng-container>
-    <mat-icon
-        *ngIf="showClear && model"
-        class="clear"
-        (click)="clearClick($event)">
-      clear
-    </mat-icon>
   </div>
 
   <mat-autocomplete

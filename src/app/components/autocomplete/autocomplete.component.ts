@@ -4,39 +4,39 @@ import {
   ContentChild,
   ContentChildren,
   ElementRef,
-  forwardRef,
+  EventEmitter,
   HostBinding,
   Input,
   OnDestroy,
   OnInit,
+  Output,
+  QueryList,
   TemplateRef,
   ViewChild,
-  QueryList,
-  EventEmitter,
-  Output,
+  forwardRef,
 } from '@angular/core';
-import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
 
-import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatOptionSelectionChange } from '@angular/material/core';
 
-import { debounceTime, takeUntil, switchMap, tap, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { debounceTime, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 
-import { trim, random, isObject } from 'lodash-es';
+import { isObject, random, trim } from 'lodash-es';
 
-import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
-import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
+import { FsAutocompleteHintDirective } from '../../directives/autocomplete-hint/autocomplete-hint.directive';
 import { FsAutocompletePrefixDirective } from '../../directives/autocomplete-prefix/autocomplete-prefix.directive';
 import { FsAutocompleteStaticDirective } from '../../directives/autocomplete-static/autocomplete-static.directive';
+import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
+import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteNoResultsDirective } from '../../directives/no-results-template/no-results-template.directive';
-import { FsAutocompleteHintDirective } from '../../directives/autocomplete-hint/autocomplete-hint.directive';
 
 
 @Component({
   selector: 'fs-autocomplete',
   templateUrl: './autocomplete.component.html',
-  styleUrls: [ './autocomplete.component.scss' ],
+  styleUrls: ['./autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -48,7 +48,7 @@ import { FsAutocompleteHintDirective } from '../../directives/autocomplete-hint/
 })
 export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnDestroy {
 
-  @ViewChild(MatAutocompleteTrigger, { static: true }) 
+  @ViewChild(MatAutocompleteTrigger, { static: true })
   public autocompleteTrigger: MatAutocompleteTrigger;
 
   @ViewChild(MatAutocomplete)
@@ -75,13 +75,13 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @ContentChild(FsAutocompleteHintDirective, { read: TemplateRef, static: true })
   public hintTemplate: TemplateRef<any> = null;
 
-  @HostBinding('class.fs-form-wrapper') 
+  @HostBinding('class.fs-form-wrapper')
   public formWrapper = true;
 
-  @ViewChild('keywordInput', { static: true }) 
+  @ViewChild('keywordInput', { static: true, read: ElementRef })
   public keywordInput: ElementRef;
 
-  @ViewChild('keywordNgModel', { static: true }) 
+  @ViewChild('keywordNgModel', { static: true })
   public keywordNgModel: NgModel;
 
   @Input() public fetch: Function = null;
@@ -91,7 +91,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public readonly = false;
   @Input() public required = false;
   @Input() public disabled = false;
-  @Input() public appearance: 'legacy' | 'outline' | 'fill' | 'standard' = 'legacy';
+  @Input() public appearance: 'legacy' | 'outline' | 'fill' | 'standard';
   @Input() public hint: string = null;
   @Input() public panelWidth: string | number = null;
 
@@ -129,7 +129,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     'ArrowDown', 'Alt', 'Control', 'Shift',
   ];
   private _onTouched = () => { };
-  private _onChange = (value: any) => {};
+  private _onChange = (value: any) => { };
 
   public registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
   public registerOnTouched(fn: () => any): void { this._onTouched = fn }
@@ -137,7 +137,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   constructor(
     private _cdRef: ChangeDetectorRef,
     private _elRef: ElementRef,
-  ) {}
+  ) { }
 
   public ngOnInit() {
     // Because the input display is set natively the delay
@@ -182,7 +182,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
                 this.searching = false;
               }),
               takeUntil(this._destroy$)
-          );
+            );
         }),
         takeUntil(this._destroy$),
       )
@@ -191,18 +191,18 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       });
 
     this.opened
-    .pipe(
-      takeUntil(this._destroy$)
-    )
-    .subscribe(() => {
-      setTimeout(() => {   
-        let width = this._elRef.nativeElement.getBoundingClientRect().width;
-        let panel = this.autocomplete.panel?.nativeElement;
-        if (panel)  {
-          panel.style.minWidth = `${width}px`;
-        }
-      }, 200);
-    });
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(() => {
+        setTimeout(() => {
+          let width = this._elRef.nativeElement.getBoundingClientRect().width;
+          let panel = this.autocomplete.panel?.nativeElement;
+          if (panel) {
+            panel.style.minWidth = `${width}px`;
+          }
+        }, 200);
+      });
   }
 
   public load() {
@@ -332,7 +332,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   public staticSelect(index) {
     const keyword = this.keyword;
-    if(!this.model) {
+    if (!this.model) {
       this.keywordNgModel.reset();
     }
 
@@ -348,7 +348,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public clearResults(closePanel = true) {
     this.data = [];
     this.noResults = false;
-    
+
     if (closePanel) {
       this.autocompleteTrigger.closePanel();
     }
@@ -356,7 +356,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   public clear(closePanel = true) {
     this.model = null;
-    this.clearResults(closePanel);    
+    this.clearResults(closePanel);
     this.clearKeyword();
     this._onChange(null);
   }
