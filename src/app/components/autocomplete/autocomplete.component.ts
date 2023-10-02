@@ -55,10 +55,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public autocomplete: MatAutocomplete;
 
   @ContentChild(FsAutocompleteTemplateDirective, { read: TemplateRef, static: true })
-  public template: TemplateRef<FsAutocompleteTemplateDirective> = null;
-
-  @ContentChildren(FsAutocompleteStaticDirective)
-  public staticTemplates: FsAutocompleteStaticDirective[] = null;
+  public template: TemplateRef<FsAutocompleteTemplateDirective>
 
   @ContentChildren(FsAutocompleteStaticDirective)
   public staticDirectives: QueryList<FsAutocompleteStaticDirective>;
@@ -164,6 +161,11 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
     this._keyword$
       .pipe(
+        tap(() => {
+          this.staticDirectives.forEach((staticDirective) => {
+            staticDirective.isShow = staticDirective.show(this._getKeyword());
+          });
+        }),
         debounceTime(150),
         filter((event: KeyboardEvent) => {
           return !event || this._ignoreKeys.indexOf(event.key) === -1;
@@ -172,6 +174,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
           this.data = [];
           this.searching = true;
           this._cdRef.markForCheck();
+
           return this.fetch(trim(event.target.value))
             .pipe(
               tap((response: any) => {

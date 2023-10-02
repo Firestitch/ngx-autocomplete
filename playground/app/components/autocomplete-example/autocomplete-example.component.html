@@ -23,7 +23,7 @@
       </mat-option>
     </ng-template>
 
-    <ng-template fsAutocompleteStatic let-keyword [showWhenKeyword]="true">
+    <ng-template fsAutocompleteStatic let-keyword>
       Custom Static {{keyword}}
     </ng-template>
 
@@ -31,7 +31,7 @@
       Cash or Cheque
     </ng-template>
 
-    <ng-template fsAutocompleteStatic let-keyword (selected)="staticClick($event)">
+    <ng-template fsAutocompleteStatic let-keyword (selected)="staticClick($event)" [show]="showJustUse">
       Just Use "{{keyword}}"
     </ng-template>
 

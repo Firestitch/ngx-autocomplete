@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { of } from 'rxjs';
-import { FsMessage } from '@firestitch/message';
 import { FsAutocompleteComponent } from '@firestitch/autocomplete';
+import { FsMessage } from '@firestitch/message';
+import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 
@@ -23,7 +23,7 @@ export class AutocompleteExampleComponent implements OnInit {
   ) { }
 
   private _list: { name: string, value: number, image: string }[] = [
-    { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg'  },
+    { name: 'Bob', value: 1, image: 'https://randomuser.me/api/portraits/men/10.jpg' },
     { name: 'Ryan', value: 2, image: 'https://randomuser.me/api/portraits/men/20.jpg' },
     { name: 'Jane', value: 3, image: 'https://randomuser.me/api/portraits/women/30.jpg' },
     { name: 'Dave', value: 4, image: 'https://randomuser.me/api/portraits/men/40.jpg' },
@@ -41,14 +41,14 @@ export class AutocompleteExampleComponent implements OnInit {
 
   public fetch = (name: string) => {
     return of(this._list)
-    .pipe(
-      map((data) => {
-        console.log('test');
-        return data.filter(item => {
-          return item.name.toLowerCase().indexOf(name.toLowerCase()) !== -1;
-        });
-      })
-    );
+      .pipe(
+        map((data) => {
+          console.log('test');
+          return data.filter(item => {
+            return item.name.toLowerCase().indexOf(name.toLowerCase()) !== -1;
+          });
+        })
+      );
   };
 
   public displayWith = (data) => {
@@ -57,6 +57,10 @@ export class AutocompleteExampleComponent implements OnInit {
 
   public staticClick(name) {
     this._message.success(name + ' Selected');
+  }
+
+  public showJustUse = (keyword) => {
+    return !!keyword;
   }
 
   public modelChange(event) {

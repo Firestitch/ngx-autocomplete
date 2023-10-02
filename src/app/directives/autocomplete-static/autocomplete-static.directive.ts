@@ -1,4 +1,4 @@
-import { Directive, Output, EventEmitter, Input, TemplateRef } from '@angular/core';
+import { Directive, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 
 
 @Directive({
@@ -6,11 +6,11 @@ import { Directive, Output, EventEmitter, Input, TemplateRef } from '@angular/co
 })
 export class FsAutocompleteStaticDirective {
 
-  @Input()
-  public showWhenKeyword = false
+  @Input() public show = (keyword: string) => true;
 
   @Output() selected = new EventEmitter<string>();
 
-  constructor(public templateRef: TemplateRef<any>) {
-  }
+  constructor(public templateRef: TemplateRef<any>) { }
+
+  public isShow = true;
 }
