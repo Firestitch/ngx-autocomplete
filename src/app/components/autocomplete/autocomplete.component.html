@@ -5,7 +5,7 @@
     #keywordNgModel="ngModel"
     matInput
     type="search"
-    [fsClear]="showClear && model"
+    [fsClear]="(showClear === undefined ? true : showClear) && model"
     (cleared)="clearClick($event)"
     [(ngModel)]="keyword"
     [name]="name"

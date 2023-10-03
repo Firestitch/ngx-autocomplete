@@ -56,6 +56,7 @@ export class AutocompleteExampleComponent implements OnInit {
   };
 
   public staticClick(name) {
+    this.model = { name };
     this._message.success(name + ' Selected');
   }
 

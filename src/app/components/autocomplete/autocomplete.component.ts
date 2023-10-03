@@ -7,10 +7,12 @@ import {
   EventEmitter,
   HostBinding,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
   QueryList,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
   forwardRef,
@@ -46,7 +48,7 @@ import { FsAutocompleteNoResultsDirective } from '../../directives/no-results-te
     }
   ],
 })
-export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
 
   @ViewChild(MatAutocompleteTrigger, { static: true })
   public autocompleteTrigger: MatAutocompleteTrigger;
@@ -118,7 +120,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public model = null;
   public searching = false;
 
-  private _showClear = true;
+  private _showClear: boolean;
   private _destroy$ = new Subject();
   private _keyword$ = new Subject();
   private _ignoreKeys = [
@@ -206,6 +208,14 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
           }
         }, 200);
       });
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.disabled && this.showClear === undefined) {
+      this.showClear = this.disabled
+        ? false
+        : true;
+    }
   }
 
   public load() {
