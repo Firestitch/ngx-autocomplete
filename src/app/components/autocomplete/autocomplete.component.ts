@@ -166,6 +166,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
         tap(() => {
           this.staticDirectives.forEach((staticDirective) => {
             staticDirective.isShow = staticDirective.show(this._getKeyword());
+            staticDirective.isDisabled = staticDirective.disable(this._getKeyword());
           });
         }),
         debounceTime(150),

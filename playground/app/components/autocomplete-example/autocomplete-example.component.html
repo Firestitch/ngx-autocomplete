@@ -35,6 +35,10 @@
       Just Use "{{keyword}}"
     </ng-template>
 
+    <ng-template fsAutocompleteStatic let-keyword (selected)="staticClick($event)" [disable]="disableStatic">
+      Disabled
+    </ng-template>
+
     <ng-template fsAutocompleteSuffix let-data="data">
       <mat-icon
         *ngIf="data && data.value"

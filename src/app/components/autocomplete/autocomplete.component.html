@@ -67,9 +67,10 @@
           <ng-container *ngFor="let staticTemplate of staticDirectives; let i = index">
             <ng-container *ngIf="staticTemplate.isShow">
               <mat-option
-                class="static-option"
-                [value]="{ staticOptionIndex: i }"
-                [ngClass]="{ 'static-option-first': !i }">
+                  class="static-option"
+                  [value]="{ staticOptionIndex: i }"
+                  [disabled]="staticTemplate.isDisabled"
+                  [ngClass]="{ 'static-option-first': !i }">
                 <ng-template
                   [ngTemplateOutlet]="staticTemplate.templateRef"
                   [ngTemplateOutletContext]="{ $implicit: keyword }">

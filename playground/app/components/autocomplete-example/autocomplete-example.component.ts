@@ -64,6 +64,10 @@ export class AutocompleteExampleComponent implements OnInit {
     return !!keyword;
   }
 
+  public disableStatic = (keyword) => {
+    return !keyword;
+  }
+
   public modelChange(event) {
     console.log(event);
   }
