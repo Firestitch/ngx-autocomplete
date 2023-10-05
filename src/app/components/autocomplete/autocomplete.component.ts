@@ -164,20 +164,23 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this._keyword$
       .pipe(
         tap(() => {
+          this.searching = true;
+          this.panelClasses = [
+            ...this.panelClasses,
+            'searching',
+          ];
+
           this.staticDirectives.forEach((staticDirective) => {
             staticDirective.isShow = staticDirective.show(this._getKeyword());
             staticDirective.isDisabled = staticDirective.disable(this._getKeyword());
           });
+          this._cdRef.markForCheck();
         }),
-        debounceTime(150),
+        debounceTime(200),
         filter((event: KeyboardEvent) => {
           return !event || this._ignoreKeys.indexOf(event.key) === -1;
         }),
         switchMap((event: any) => {
-          this.data = [];
-          this.searching = true;
-          this._cdRef.markForCheck();
-
           return this.fetch(trim(event.target.value))
             .pipe(
               tap((response: any) => {
@@ -186,6 +189,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
                 this._cdRef.markForCheck();
                 this.autocompleteTrigger.openPanel();
                 this.searching = false;
+                this.panelClasses = this.panelClasses
+                  .filter((name) => name !== 'searching');
               }),
               takeUntil(this._destroy$)
             );

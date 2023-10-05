@@ -32,54 +32,52 @@
   </div>
 
   <mat-autocomplete
-    #userAutocompleteInput="matAutocomplete"
-    [autoActiveFirstOption]="true"
-    [panelWidth]="panelWidth"
-    (opened)="opened.emit()"
-    (closed)="closed.emit()"
-    [class]="panelClasses.join(' ')"
-    [displayWith]="display"
-    (optionSelected)="optionSelected($event)">
-
-    <mat-option *ngFor="let item of data" [value]="item">
+      #userAutocompleteInput="matAutocomplete"
+      [autoActiveFirstOption]="true"
+      [panelWidth]="panelWidth"
+      (opened)="opened.emit()"
+      (closed)="closed.emit()"
+      [class]="panelClasses"
+      [displayWith]="display"
+      (optionSelected)="optionSelected($event)">
+    <mat-option 
+        *ngFor="let item of data" [value]="item"
+        class="general-option">
       <ng-container
         [ngTemplateOutlet]="template"
         [ngTemplateOutletContext]="{ data: item }">
       </ng-container>
     </mat-option>
 
-    <ng-container *ngIf="!searching">
-      <ng-container *ngIf="noResults">
-        <ng-template
-          *ngIf="noResultsTemplate; else noResultsOption"
-          [ngTemplateOutlet]="noResultsTemplate"
-          [ngTemplateOutletContext]="{ $implicit: keyword }">
-        </ng-template>
-        <ng-template #noResultsOption>
-          <mat-option disabled class="no-results">
-            No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
-          </mat-option>
-        </ng-template>
-      </ng-container>
-
-      <ng-container *ngIf="!model && !searching && staticDirectives?.length">
-        <div class="static-templates">
-          <ng-container *ngFor="let staticTemplate of staticDirectives; let i = index">
-            <ng-container *ngIf="staticTemplate.isShow">
-              <mat-option
-                  class="static-option"
-                  [value]="{ staticOptionIndex: i }"
-                  [disabled]="staticTemplate.isDisabled"
-                  [ngClass]="{ 'static-option-first': !i }">
-                <ng-template
-                  [ngTemplateOutlet]="staticTemplate.templateRef"
-                  [ngTemplateOutletContext]="{ $implicit: keyword }">
-                </ng-template>
-              </mat-option>
-            </ng-container>
+    <ng-container *ngIf="noResults">
+      <ng-template
+        *ngIf="noResultsTemplate; else noResultsOption"
+        [ngTemplateOutlet]="noResultsTemplate"
+        [ngTemplateOutletContext]="{ $implicit: keyword }">
+      </ng-template>
+      <ng-template #noResultsOption>
+        <mat-option disabled class="no-results">
+          No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
+        </mat-option>
+      </ng-template>
+    </ng-container>      
+    <ng-container *ngIf="!model && staticDirectives?.length">
+      <div class="static-templates">
+        <ng-container *ngFor="let staticTemplate of staticDirectives; let i = index">
+          <ng-container *ngIf="staticTemplate.isShow">
+            <mat-option
+                class="static-option"
+                [value]="{ staticOptionIndex: i }"
+                [disabled]="staticTemplate.isDisabled"
+                [ngClass]="{ 'static-option-first': !i }">
+              <ng-template
+                [ngTemplateOutlet]="staticTemplate.templateRef"
+                [ngTemplateOutletContext]="{ $implicit: keyword }">
+              </ng-template>
+            </mat-option>
           </ng-container>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </ng-container>
   </mat-autocomplete>
 
