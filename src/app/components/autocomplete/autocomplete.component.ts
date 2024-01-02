@@ -129,6 +129,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   ];
   private _onTouched = () => { };
   private _onChange = (value: any) => { };
+  private _focus;
 
   public registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
   public registerOnTouched(fn: () => any): void { this._onTouched = fn }
@@ -144,22 +145,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     setTimeout(() => {
       this._updateKeywordDisplay();
     });
-
-    // _setValueAndClose() override to change the order of focus() and _onChange()
-    const autocompleteTrigger = (<any>this.autocompleteTrigger);
-    autocompleteTrigger._setValueAndClose = (event: MatOptionSelectionChange) => {
-      if (event && event.source) {
-        if (event.source.value.staticOptionIndex === undefined) {
-          autocompleteTrigger._clearPreviousSelectedOption(event.source);
-          autocompleteTrigger._setTriggerValue(event.source.value);
-          autocompleteTrigger._onChange(event.source.value);
-        }
-
-        autocompleteTrigger.autocomplete._emitSelectEvent(event.source);
-      }
-
-      autocompleteTrigger.closePanel();
-    }
 
     this._keyword$
       .pipe(
@@ -199,13 +184,17 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       )
       .subscribe(() => {
         this._onTouched();
-      });
+      });      
 
     this.opened
       .pipe(
         takeUntil(this._destroy$)
       )
       .subscribe(() => {
+        //Hack: disable the focus event when the panel is opened to avoid
+        //optionSelected() calling input.focus() too early
+        this._focus = this.keywordInput.nativeElement.focus;
+        this.keywordInput.nativeElement.focus = () => {};
         setTimeout(() => {
           let width = this._elRef.nativeElement.getBoundingClientRect().width;
           let panel = this.autocomplete.panel?.nativeElement;
@@ -213,6 +202,14 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
             panel.style.minWidth = `${width}px`;
           }
         }, 200);
+      });
+
+    this.closed
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(() => {
+        this.keywordInput.nativeElement.focus = this._focus;
       });
   }
 
@@ -311,7 +308,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public keyDown(event: KeyboardEvent) {
-
     if (this.readonly || this.disabled) {
       return;
     }
