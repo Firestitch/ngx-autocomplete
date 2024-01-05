@@ -19,10 +19,11 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
 
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatOptionSelectionChange } from '@angular/material/core';
+import {
+  MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger,
+} from '@angular/material/autocomplete';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { isObject, random, trim } from 'lodash-es';
@@ -44,8 +45,8 @@ import { FsAutocompleteNoResultsDirective } from '../../directives/no-results-te
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => FsAutocompleteComponent),
-      multi: true
-    }
+      multi: true,
+    },
   ],
 })
 export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
@@ -57,7 +58,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public autocomplete: MatAutocomplete;
 
   @ContentChild(FsAutocompleteTemplateDirective, { read: TemplateRef, static: true })
-  public template: TemplateRef<FsAutocompleteTemplateDirective>
+  public template: TemplateRef<FsAutocompleteTemplateDirective>;
 
   @ContentChildren(FsAutocompleteStaticDirective)
   public staticDirectives: QueryList<FsAutocompleteStaticDirective>;
@@ -83,9 +84,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @ViewChild('keywordNgModel', { static: true })
   public keywordNgModel: NgModel;
 
-  @Input() public fetch: Function = null;
+  @Input() public fetch: (keyword: string) => Observable<any>;
+  @Input() public displayWith: (object: any) => string;
   @Input() public placeholder = '';
-  @Input() public displayWith: Function = null;
   @Input() public fetchOnFocus = false;
   @Input() public readonly = false;
   @Input() public required = false;
@@ -95,7 +96,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public panelWidth: string | number = null;
 
   @Input('panelClass')
-  set setPanelClass(value) {
+  public set setPanelClass(value) {
     this.panelClasses.push(value);
   }
 
@@ -127,17 +128,23 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     'Enter', 'Escape', 'ArrowUp', 'ArrowLeft', 'ArrowRight',
     'ArrowDown', 'Alt', 'Control', 'Shift',
   ];
-  private _onTouched = () => { };
-  private _onChange = (value: any) => { };
-  private _focus;
 
-  public registerOnChange(fn: (value: any) => any): void { this._onChange = fn }
-  public registerOnTouched(fn: () => any): void { this._onTouched = fn }
+  private _focus: () => void;
+  private _onTouched: () => void;
+  private _onChange: (value: any) => void;
 
   constructor(
     private _cdRef: ChangeDetectorRef,
     private _elRef: ElementRef,
   ) { }
+
+  public registerOnChange(fn: (value: any) => any): void {
+    this._onChange = fn;
+  }
+
+  public registerOnTouched(fn: () => any): void {
+    this._onTouched = fn;
+  }
 
   public ngOnInit() {
     // Because the input display is set natively the delay
@@ -177,27 +184,30 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
                 this.panelClasses = this.panelClasses
                   .filter((name) => name !== 'searching');
               }),
-              takeUntil(this._destroy$)
+              takeUntil(this._destroy$),
             );
         }),
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
         this._onTouched();
-      });      
+      });
 
     this.opened
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe(() => {
         //Hack: disable the focus event when the panel is opened to avoid
         //optionSelected() calling input.focus() too early
         this._focus = this.keywordInput.nativeElement.focus;
-        this.keywordInput.nativeElement.focus = () => {};
+        this.keywordInput.nativeElement.focus = () => {
+          //dummy
+        };
+
         setTimeout(() => {
-          let width = this._elRef.nativeElement.getBoundingClientRect().width;
-          let panel = this.autocomplete.panel?.nativeElement;
+          const width = this._elRef.nativeElement.getBoundingClientRect().width;
+          const panel = this.autocomplete.panel?.nativeElement;
           if (panel) {
             panel.style.minWidth = `${width}px`;
           }
@@ -206,7 +216,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
     this.closed
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe(() => {
         this.keywordInput.nativeElement.focus = this._focus;
@@ -261,8 +271,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     if (data && this.displayWith) {
       return this.displayWith(data);
     }
+
     return '';
-  }
+  };
 
   public select(value) {
     if (isObject(value) && value.staticOptionIndex !== undefined) {
@@ -406,5 +417,4 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   private _isWindows(): boolean {
     return navigator.platform.indexOf('Win') > -1;
   }
-
 }
