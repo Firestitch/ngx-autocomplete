@@ -1,4 +1,4 @@
-<mat-form-field [appearance]="appearance">
+<mat-form-field [appearance]="appearance" [class]="formFieldClass">
   <mat-label>{{placeholder}}</mat-label>
   <input
     #keywordInput
@@ -30,7 +30,6 @@
       [ngTemplateOutletContext]="{ data: model }">
     </ng-container>
   </div>
-
   <mat-autocomplete
       #userAutocompleteInput="matAutocomplete"
       [autoActiveFirstOption]="true"

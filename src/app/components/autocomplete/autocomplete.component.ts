@@ -91,6 +91,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @Input() public readonly = false;
   @Input() public required = false;
   @Input() public disabled = false;
+  @Input() public formFieldClass;
   @Input() public appearance: 'legacy' | 'outline' | 'fill' | 'standard';
   @Input() public hint: string = null;
   @Input() public panelWidth: string | number = null;

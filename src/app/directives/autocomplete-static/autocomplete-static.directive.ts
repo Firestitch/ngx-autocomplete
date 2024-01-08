@@ -2,17 +2,18 @@ import { Directive, EventEmitter, Input, Output, TemplateRef } from '@angular/co
 
 
 @Directive({
-  selector: '[fsAutocompleteStatic],[fsAutocompleteStaticTemplate]'
+  selector: '[fsAutocompleteStatic],[fsAutocompleteStaticTemplate]',
 })
 export class FsAutocompleteStaticDirective {
 
   @Input() public show = (keyword: string) => true;
   @Input() public disable = (keyword: string) => false;
 
-  @Output() selected = new EventEmitter<string>();
-
-  constructor(public templateRef: TemplateRef<any>) { }
+  @Output() public selected = new EventEmitter<string>();
 
   public isShow = true;
   public isDisabled = false;
+
+  constructor(public templateRef: TemplateRef<any>) { }
+
 }
