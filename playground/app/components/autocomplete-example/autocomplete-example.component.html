@@ -16,7 +16,7 @@
       </div>
     </ng-template>
 
-    <ng-template fsAutocompleteNoResults let-keyword>
+    <ng-template fsAutocompleteNoResults let-keyword [show]="showResults">
       <mat-option disabled>
         Custom No Results for "{{keyword}}"
       </mat-option>

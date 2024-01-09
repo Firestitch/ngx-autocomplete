@@ -49,11 +49,14 @@
     </mat-option>
 
     <ng-container *ngIf="noResults">
-      <ng-template
-        *ngIf="noResultsTemplate; else noResultsOption"
-        [ngTemplateOutlet]="noResultsTemplate"
-        [ngTemplateOutletContext]="{ $implicit: keyword }">
-      </ng-template>
+      <ng-container *ngIf="noResultsDirective; else noResultsOption">
+        <ng-container *ngIf="noResultsDirective.isShow">
+          <ng-template
+            [ngTemplateOutlet]="noResultsDirective.templateRef"
+            [ngTemplateOutletContext]="{ $implicit: keyword }">
+          </ng-template>
+        </ng-container>
+      </ng-container>
       <ng-template #noResultsOption>
         <mat-option disabled class="no-results">
           No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>

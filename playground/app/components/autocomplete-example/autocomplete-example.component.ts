@@ -80,6 +80,10 @@ export class AutocompleteExampleComponent implements OnInit {
     return !keyword;
   };
 
+  public showResults = (keyword) => {
+    return true;
+  };
+
   public modelChange(event) {
     console.log(event);
   }

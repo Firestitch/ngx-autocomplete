@@ -63,8 +63,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   @ContentChildren(FsAutocompleteStaticDirective)
   public staticDirectives: QueryList<FsAutocompleteStaticDirective>;
 
-  @ContentChild(FsAutocompleteNoResultsDirective, { read: TemplateRef, static: true })
-  public noResultsTemplate: TemplateRef<any>;
+  @ContentChild(FsAutocompleteNoResultsDirective)
+  public noResultsDirective: FsAutocompleteNoResultsDirective;
 
   @ContentChild(FsAutocompleteSuffixDirective, { read: TemplateRef, static: true })
   public suffix: TemplateRef<any> = null;
@@ -162,6 +162,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
             ...this.panelClasses,
             'searching',
           ];
+
+          this.noResultsDirective.isShow = this.noResultsDirective.show(this._getKeyword());
 
           this.staticDirectives.forEach((staticDirective) => {
             staticDirective.isShow = staticDirective.show(this._getKeyword());
