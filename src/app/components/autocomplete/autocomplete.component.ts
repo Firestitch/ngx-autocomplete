@@ -163,7 +163,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
             'searching',
           ];
 
-          this.noResultsDirective.isShow = this.noResultsDirective.show(this._getKeyword());
+          if(this.noResultsDirective) {
+            this.noResultsDirective.isShow = this.noResultsDirective.show(this._getKeyword());
+          }
 
           this.staticDirectives.forEach((staticDirective) => {
             staticDirective.isShow = staticDirective.show(this._getKeyword());
