@@ -331,7 +331,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
 
     if (event.code === 'Tab') {
-      if (!this.model && this.autocompleteTrigger.activeOption) {
+      if (this.autocompleteTrigger.activeOption) {
         this.select(this.autocompleteTrigger.activeOption.value);
       }
     } else if (event.code === 'Backspace') {
