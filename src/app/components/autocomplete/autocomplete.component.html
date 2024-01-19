@@ -32,7 +32,7 @@
   </div>
   <mat-autocomplete
       #userAutocompleteInput="matAutocomplete"
-      [autoActiveFirstOption]="true"
+      [autoActiveFirstOption]="!!keyword"
       [panelWidth]="panelWidth"
       (opened)="opened.emit()"
       (closed)="closed.emit()"

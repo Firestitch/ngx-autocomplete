@@ -269,6 +269,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
       this._updateKeywordDisplay();
       this.clearResults();
+      this.close();
     }, 200);
   }
 
@@ -291,11 +292,12 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
 
     this.clearResults();
+    this.close();
   }
 
   public optionSelected(event: MatAutocompleteSelectedEvent) {
     this.select(event.option.value);
-    this.autocompleteTrigger.closePanel();
+    this.close();
   }
 
   public close() {
@@ -334,12 +336,11 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       }
     } else if (event.code === 'Backspace') {
       if (this.model) {
-        this.model = null;
+        this.clearModel();
         this.clearKeyword();
       }
 
     } else if (!this._isWindows() && !this._isMacOS()) {
-
       if (this._ignoreKeys.indexOf(event.key) === -1) {
         this.searching = true;
         this.data = [];
@@ -356,7 +357,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     }
 
     if (event.code === 'Backspace' && !event.target.value.length) {
-      this.clear();
       this.load();
     }
   }
@@ -376,19 +376,24 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this._destroy$.complete();
   }
 
-  public clearResults(closePanel = true) {
+  public clearResults() {
     this.data = [];
     this.noResults = false;
-
-    if (closePanel) {
-      this.autocompleteTrigger.closePanel();
-    }
   }
 
   public clear(closePanel = true) {
-    this.model = null;
-    this.clearResults(closePanel);
+    this.clearResults();
+
+    if(closePanel) {
+      this.close();
+    }
+
     this.clearKeyword();
+    this.clearModel();
+  }
+
+  public clearModel() {
+    this.model = null;
     this._onChange(null);
   }
 

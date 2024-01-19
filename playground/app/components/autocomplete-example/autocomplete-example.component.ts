@@ -41,12 +41,10 @@ export class AutocompleteExampleComponent implements OnInit {
 
   public ngOnInit() {
     this.model = this._list[0];
-
-
-    setTimeout(() => {
-      this.model = this._list[1];
-      this._cdRef.markForCheck();
-    }, 1500);
+    // setTimeout(() => {
+    //   this.model = this._list[1];
+    //   this._cdRef.markForCheck();
+    // }, 1500);
   }
 
   public fetch = (name: string) => {
