@@ -388,8 +388,8 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       this.close();
     }
 
-    this.clearKeyword();
     this.clearModel();
+    this.clearKeyword();
   }
 
   public clearModel() {
