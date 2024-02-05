@@ -245,7 +245,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
     this.keywordInput.nativeElement.focus();
   }
 
-  public inputFocus(e: FocusEvent) {
+  public inputFocus() {
     if (this.readonly || this.disabled) {
       return;
     }
@@ -404,9 +404,11 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   public clearClick(event: MouseEvent) {
     event.stopPropagation();
-    this.clear(false);
-    this.keywordInput.nativeElement.focus();
+    this.model = null;
+    this.keywordInput.nativeElement.value = null;
     this.cleared.emit();
+    this.keywordInput.nativeElement.focus();
+    this.load();
   }
 
   private _updateKeywordDisplay() {
