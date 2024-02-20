@@ -20,32 +20,25 @@ import {
 
 
 @NgModule({
-  bootstrap: [ AppComponent ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-
-    FsExampleModule,
-    FsAutocompleteModule,
-    FsBadgeModule,
-
-    AppMaterialModule,
-    FsExampleModule.forRoot(),
-    FsMessageModule.forRoot(),
-    ToastrModule.forRoot({ preventDuplicates: true }),
-  ],
-  entryComponents: [
-    DialogComponent
-  ],
-  declarations: [
-    AppComponent,
-
-    AutocompleteExampleComponent,
-    AutocompleteLabelExampleComponent,
-
-    DialogComponent
-  ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        FsExampleModule,
+        FsAutocompleteModule,
+        FsBadgeModule,
+        AppMaterialModule,
+        FsExampleModule.forRoot(),
+        FsMessageModule.forRoot(),
+        ToastrModule.forRoot({ preventDuplicates: true }),
+    ],
+    declarations: [
+        AppComponent,
+        AutocompleteExampleComponent,
+        AutocompleteLabelExampleComponent,
+        DialogComponent
+    ]
 })
 export class PlaygroundModule {
 }
