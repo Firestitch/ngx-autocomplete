@@ -404,7 +404,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   public clearClick(event: MouseEvent) {
     event.stopPropagation();
-    this.model = null;
+    this.clearModel();
     this.keywordInput.nativeElement.value = null;
     this.cleared.emit();
     this.keywordInput.nativeElement.focus();
