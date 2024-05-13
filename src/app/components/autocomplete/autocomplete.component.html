@@ -69,7 +69,7 @@
           <ng-container *ngIf="staticTemplate.isShow">
             <mat-option
                 class="static-option"
-                [value]="{ staticOptionIndex: i }"
+                [value]="{ staticOptionIndex: i, keyword: keyword }"
                 [disabled]="staticTemplate.isDisabled"
                 [ngClass]="{ 'static-option-first': !i }">
               <ng-template

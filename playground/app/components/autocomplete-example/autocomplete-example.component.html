@@ -22,7 +22,7 @@
       </mat-option>
     </ng-template>
 
-    <ng-template fsAutocompleteStatic let-keyword>
+    <ng-template fsAutocompleteStatic let-keyword (selected)="customStaticClick($event)">
       Custom Static {{keyword}}
     </ng-template>
 
