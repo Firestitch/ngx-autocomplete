@@ -23,7 +23,7 @@ import {
   MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger,
 } from '@angular/material/autocomplete';
 
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { isObject, random, trim } from 'lodash-es';
@@ -125,6 +125,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   private _showClear: boolean;
   private _destroy$ = new Subject();
   private _keyword$ = new Subject();
+  private _staticSelected$ = new BehaviorSubject<boolean>(false);
   private _ignoreKeys = [
     'Enter', 'Escape', 'ArrowUp', 'ArrowLeft', 'ArrowRight',
     'ArrowDown', 'Alt', 'Control', 'Shift',
@@ -223,8 +224,15 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       .pipe(
         takeUntil(this._destroy$),
       )
-      .subscribe(() => {
-        this.keywordInput.nativeElement.focus = this._focus;
+      .subscribe((event) => {
+        if(this._staticSelected$.getValue()) {
+          this.keywordInput.nativeElement.blur();
+          this._staticSelected$.next(false);
+        }
+
+        setTimeout(() => {
+          this.keywordInput.nativeElement.focus = this._focus;
+        });
       });
   }
 
@@ -282,7 +290,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   };
 
   public select(value) {
-    if (isObject(value) && value.staticOptionIndex !== undefined) {
+    if (this._isStaticSelected(value)) {
       this.staticSelect(value.staticOptionIndex);
     } else {
       this.model = value;
@@ -367,6 +375,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       this.keywordNgModel.reset();
     }
 
+    this._staticSelected$.next(true);
     const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
     staticDirective.selected.emit(keyword);
   }
@@ -428,5 +437,9 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
 
   private _isWindows(): boolean {
     return navigator.platform.indexOf('Win') > -1;
+  }
+
+  private _isStaticSelected(value): boolean {
+    return isObject(value) && value.staticOptionIndex !== undefined;
   }
 }
