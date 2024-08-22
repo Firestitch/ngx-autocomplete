@@ -370,7 +370,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   public staticSelect(index) {
-    const keyword = this.keyword;
+    const keyword = (this.keyword as any).keyword;
     if (!this.model) {
       this.keywordNgModel.reset();
     }
