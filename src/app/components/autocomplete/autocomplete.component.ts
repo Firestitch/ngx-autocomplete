@@ -292,12 +292,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public select(value) {
     if (this._isStaticSelected(value)) {
       this.staticSelect(value.staticOptionIndex);
-      this.model = {
-        name: value.keyword,
-        value: value.keyword,
-      };
-
-      this._onChange({ ...this.model });
+      this._onChange(value);
     } else {
       this.model = value;
       this.data = [];
