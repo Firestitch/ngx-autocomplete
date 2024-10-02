@@ -12,7 +12,7 @@
       <mat-autocomplete #userAutocompleteInput="matAutocomplete" [displayWith]="displayFn">
         <mat-option *ngFor="let item of filteredOptions | async" [value]="item">
           <div class="fs-row.gap-sm">
-            <fs-badge size="35" shape="circle" [image]="item.avatar"></fs-badge>
+            <fs-badge [size]="35" shape="circle" [image]="item.avatar"></fs-badge>
             <span>{{ item.name }}</span>
           </div>
         </mat-option>
