@@ -4,8 +4,8 @@
     #keywordInput
     #keywordNgModel="ngModel"
     matInput
-    type="search"
-    [fsClear]="(showClear === undefined ? true : showClear) && model"
+    type="text"
+    [fsClear]="showClear"
     (cleared)="clearClick($event)"
     [(ngModel)]="keyword"
     [name]="name"
@@ -24,7 +24,7 @@
       [ngTemplateOutletContext]="{ data: model }">
     </ng-container>
   </div>
-  <div *ngIf="!disabled" matSuffix class="suffix">
+  <div *ngIf="suffix && !disabled" matSuffix class="suffix">
     <ng-container
       [ngTemplateOutlet]="suffix"
       [ngTemplateOutletContext]="{ data: model }">

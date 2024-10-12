@@ -102,7 +102,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   }
 
   @Input() public set showClear(value: boolean) {
-    this._showClear = value;
+    this._showClear = value ?? true;
     this._cdRef.detectChanges();
   }
 
@@ -122,7 +122,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public model = null;
   public searching = false;
 
-  private _showClear: boolean;
+  private _showClear: boolean = true;
   private _destroy$ = new Subject();
   private _keyword$ = new Subject();
   private _staticSelected$ = new BehaviorSubject<boolean>(false);
@@ -224,7 +224,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
       .pipe(
         takeUntil(this._destroy$),
       )
-      .subscribe((event) => {
+      .subscribe(() => {
         if(this._staticSelected$.getValue()) {
           this.keywordInput.nativeElement.blur();
           this._staticSelected$.next(false);

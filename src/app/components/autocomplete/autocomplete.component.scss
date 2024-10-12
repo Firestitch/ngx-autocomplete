@@ -14,20 +14,12 @@
     border-top: 1px solid #e0e0e0;
   }
 
-  // .mat-option {
-  
-
-  //   &.searching {
-  //     background-color: aqua;
-  //   }
-  // }
-
   &.mat-autocomplete-hidden {
     visibility: visible !important;
   }
 }
 
-.mat-form-field {
+mat-form-field {
   width: 100%;
 }
 
@@ -38,4 +30,3 @@
 .suffix {
   display: flex;
 }
-
