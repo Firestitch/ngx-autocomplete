@@ -5,7 +5,7 @@
     #keywordNgModel="ngModel"
     matInput
     type="text"
-    [fsClear]="showClear"
+    [fsClear]="showClear && !disabled"
     (cleared)="clearClick($event)"
     [(ngModel)]="keyword"
     [name]="name"
