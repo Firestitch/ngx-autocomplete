@@ -1,5 +1,5 @@
 <mat-form-field [appearance]="appearance" [class]="formFieldClass">
-  <mat-label>{{placeholder}}</mat-label>
+  <mat-label *ngIf="placeholder">{{placeholder}}</mat-label>
   <input
     #keywordInput
     #keywordNgModel="ngModel"
