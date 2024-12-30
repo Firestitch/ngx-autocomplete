@@ -164,7 +164,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
             'searching',
           ];
 
-          if(this.noResultsDirective) {
+          if (this.noResultsDirective) {
             this.noResultsDirective.isShow = this.noResultsDirective.show(this._getKeyword());
           }
 
@@ -225,7 +225,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
-        if(this._staticSelected$.getValue()) {
+        if (this._staticSelected$.getValue()) {
           this.keywordInput.nativeElement.blur();
           this._staticSelected$.next(false);
         }
@@ -234,6 +234,10 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
           this.keywordInput.nativeElement.focus = this._focus;
         });
       });
+  }
+
+  public onClose(): void {
+    this.closed.emit();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -393,7 +397,7 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public clear(closePanel = true) {
     this.clearResults();
 
-    if(closePanel) {
+    if (closePanel) {
       this.close();
     }
 

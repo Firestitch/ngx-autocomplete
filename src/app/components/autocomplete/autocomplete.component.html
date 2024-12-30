@@ -35,7 +35,7 @@
       [autoActiveFirstOption]="!!keyword"
       [panelWidth]="panelWidth"
       (opened)="opened.emit()"
-      (closed)="closed.emit()"
+      (closed)="onClose()"
       [class]="panelClasses"
       [displayWith]="display"
       (optionSelected)="optionSelected($event)">
