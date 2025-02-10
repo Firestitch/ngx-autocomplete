@@ -122,6 +122,13 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   public model = null;
   public searching = false;
 
+  public get staticDirectivesLength(): number {
+    const staticDirectives = (this.staticDirectives?.toArray() ?? [])
+      .filter((directive) => directive.show(this._getKeyword()));
+
+    return staticDirectives.length;
+  }
+
   private _showClear: boolean = true;
   private _destroy$ = new Subject();
   private _keyword$ = new Subject();

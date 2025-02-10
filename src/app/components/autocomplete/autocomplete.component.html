@@ -1,5 +1,9 @@
-<mat-form-field [appearance]="appearance" [class]="formFieldClass">
-  <mat-label *ngIf="placeholder">{{placeholder}}</mat-label>
+<mat-form-field
+    [appearance]="appearance"
+    [class]="formFieldClass">
+  <mat-label *ngIf="placeholder">
+    {{ placeholder }}
+  </mat-label>
   <input
     #keywordInput
     #keywordNgModel="ngModel"
@@ -18,13 +22,19 @@
     (keydown)="keyDown($event)"
     (keyup)="keyUp($event)"
     [matAutocomplete]="userAutocompleteInput">
-  <div *ngIf="prefix" matPrefix class="prefix">
+  <div
+      *ngIf="prefix"
+      matPrefix
+      class="prefix">
     <ng-container
       [ngTemplateOutlet]="prefix"
       [ngTemplateOutletContext]="{ data: model }">
     </ng-container>
   </div>
-  <div *ngIf="suffix && !disabled" matSuffix class="suffix">
+  <div
+      *ngIf="suffix && !disabled"
+      matSuffix
+      class="suffix">
     <ng-container
       [ngTemplateOutlet]="suffix"
       [ngTemplateOutletContext]="{ data: model }">
@@ -39,30 +49,39 @@
       [class]="panelClasses"
       [displayWith]="display"
       (optionSelected)="optionSelected($event)">
-    <mat-option 
-        *ngFor="let item of data" [value]="item"
-        class="general-option">
-      <ng-container
-        [ngTemplateOutlet]="template"
-        [ngTemplateOutletContext]="{ data: item }">
-      </ng-container>
-    </mat-option>
-
-    <ng-container *ngIf="noResults">
-      <ng-container *ngIf="noResultsDirective; else noResultsOption">
-        <ng-container *ngIf="noResultsDirective.isShow">
-          <ng-template
-            [ngTemplateOutlet]="noResultsDirective.templateRef"
-            [ngTemplateOutletContext]="{ $implicit: keyword }">
-          </ng-template>
+    <div
+        class="options"
+        [ngStyle]="{ 'padding-bottom': (staticDirectivesLength * 48) + 'px' }">
+      <mat-option
+          *ngFor="let item of data"
+          [value]="item"
+          class="general-option">
+        <ng-container
+          [ngTemplateOutlet]="template"
+          [ngTemplateOutletContext]="{ data: item }">
         </ng-container>
+      </mat-option>
+      <ng-container *ngIf="noResults">
+        <ng-container *ngIf="noResultsDirective; else noResultsOption">
+          <ng-container *ngIf="noResultsDirective.isShow">
+            <ng-template
+              [ngTemplateOutlet]="noResultsDirective.templateRef"
+              [ngTemplateOutletContext]="{ $implicit: keyword }">
+            </ng-template>
+          </ng-container>
+        </ng-container>
+        <ng-template #noResultsOption>
+          <mat-option
+              disabled
+              class="no-results">
+            No results
+            <ng-container *ngIf="keyword">
+              for "{{ keyword }}"
+            </ng-container>
+          </mat-option>
+        </ng-template>
       </ng-container>
-      <ng-template #noResultsOption>
-        <mat-option disabled class="no-results">
-          No results <ng-container *ngIf="keyword">for "{{keyword}}"</ng-container>
-        </mat-option>
-      </ng-template>
-    </ng-container>      
+    </div>
     <ng-container *ngIf="!model && staticDirectives?.length">
       <div class="static-templates">
         <ng-container *ngFor="let staticTemplate of staticDirectives; let i = index">
@@ -82,11 +101,10 @@
       </div>
     </ng-container>
   </mat-autocomplete>
-
-  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <mat-hint *ngIf="hint">
+    {{ hint }}
+  </mat-hint>
   <mat-hint *ngIf="hintTemplate">
-    <ng-container
-      [ngTemplateOutlet]="hintTemplate">
-    </ng-container>
+    <ng-container [ngTemplateOutlet]="hintTemplate"></ng-container>
   </mat-hint>
 </mat-form-field>

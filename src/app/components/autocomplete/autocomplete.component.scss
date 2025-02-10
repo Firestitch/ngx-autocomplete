@@ -1,5 +1,6 @@
 
 ::ng-deep .fs-autocomplete-panel {
+  max-height: none !important;
   &.searching {
     .mat-option.general-option {
       opacity: .5;
@@ -29,4 +30,9 @@ mat-form-field {
 
 .suffix {
   display: flex;
+}
+
+.options {
+  max-height: 256px;
+  overflow-y: auto;
 }
