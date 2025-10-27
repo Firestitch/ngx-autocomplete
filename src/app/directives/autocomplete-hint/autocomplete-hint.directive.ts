@@ -2,7 +2,8 @@ import { Directive } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAutocompleteHint]'
+    selector: '[fsAutocompleteHint]',
+    standalone: true
 })
 export class FsAutocompleteHintDirective {
 

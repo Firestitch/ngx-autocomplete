@@ -2,7 +2,8 @@ import { Directive } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAutocompleteTemplate]'
+    selector: '[fsAutocompleteTemplate]',
+    standalone: true
 })
 export class FsAutocompleteTemplateDirective {
 

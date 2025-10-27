@@ -2,7 +2,8 @@ import { Directive, Input, TemplateRef } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAutocompleteNoResults]',
+    selector: '[fsAutocompleteNoResults]',
+    standalone: true,
 })
 export class FsAutocompleteNoResultsDirective {
 

@@ -2,7 +2,8 @@ import { Directive, EventEmitter, Input, Output, TemplateRef } from '@angular/co
 
 
 @Directive({
-  selector: '[fsAutocompleteStatic],[fsAutocompleteStaticTemplate]',
+    selector: '[fsAutocompleteStatic],[fsAutocompleteStaticTemplate]',
+    standalone: true,
 })
 export class FsAutocompleteStaticDirective {
 

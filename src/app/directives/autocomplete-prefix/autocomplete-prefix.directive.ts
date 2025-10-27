@@ -2,7 +2,8 @@ import { Directive } from '@angular/core';
 
 
 @Directive({
-  selector: '[fsAutocompletePrefix]'
+    selector: '[fsAutocompletePrefix]',
+    standalone: true
 })
 export class FsAutocompletePrefixDirective {
 

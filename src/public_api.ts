@@ -1,5 +1,5 @@
 // Modules
-export { FsAutocompleteModule } from './app/fs-autocomplete.module';
+
 
 // Components
 export { FsAutocompleteComponent } from './app/components/autocomplete/autocomplete.component';

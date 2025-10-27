@@ -1,12 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { MatFormField, MatHint } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatOption } from '@angular/material/core';
+import { FsBadgeModule } from '@firestitch/badge';
+import { AsyncPipe } from '@angular/common';
 
 
 @Component({
-  selector: 'autocomplete-label-example',
-  styleUrls: ['autocomplete-label-example.component.scss'],
-  templateUrl: 'autocomplete-label-example.component.html'
+    selector: 'autocomplete-label-example',
+    styleUrls: ['autocomplete-label-example.component.scss'],
+    templateUrl: 'autocomplete-label-example.component.html',
+    standalone: true,
+    imports: [FormsModule, MatFormField, MatInput, MatAutocompleteTrigger, MatAutocomplete, MatOption, FsBadgeModule, MatHint, AsyncPipe]
 })
 export class AutocompleteLabelExampleComponent implements OnInit {
 

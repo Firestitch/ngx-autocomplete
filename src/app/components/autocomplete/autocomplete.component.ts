@@ -17,7 +17,7 @@ import {
   ViewChild,
   forwardRef,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel, FormsModule } from '@angular/forms';
 
 import {
   MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger,
@@ -34,20 +34,42 @@ import { FsAutocompleteStaticDirective } from '../../directives/autocomplete-sta
 import { FsAutocompleteSuffixDirective } from '../../directives/autocomplete-suffix/autocomplete-suffix.directive';
 import { FsAutocompleteTemplateDirective } from '../../directives/autocomplete-template/autocomplete-template.directive';
 import { FsAutocompleteNoResultsDirective } from '../../directives/no-results-template/no-results-template.directive';
+import { MatFormField, MatLabel, MatPrefix, MatSuffix, MatHint } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { FsClearModule } from '@firestitch/clear';
+import { NgTemplateOutlet, NgStyle, NgClass } from '@angular/common';
+import { MatOption } from '@angular/material/core';
 
 
 @Component({
-  selector: 'fs-autocomplete',
-  templateUrl: './autocomplete.component.html',
-  styleUrls: ['./autocomplete.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FsAutocompleteComponent),
-      multi: true,
-    },
-  ],
+    selector: 'fs-autocomplete',
+    templateUrl: './autocomplete.component.html',
+    styleUrls: ['./autocomplete.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FsAutocompleteComponent),
+            multi: true,
+        },
+    ],
+    standalone: true,
+    imports: [
+        MatFormField,
+        MatLabel,
+        MatInput,
+        FormsModule,
+        MatAutocompleteTrigger,
+        FsClearModule,
+        MatPrefix,
+        NgTemplateOutlet,
+        MatSuffix,
+        MatAutocomplete,
+        NgStyle,
+        MatOption,
+        NgClass,
+        MatHint,
+    ],
 })
 export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
 

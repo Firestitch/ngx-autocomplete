@@ -5,13 +5,40 @@ import { FsMessage } from '@firestitch/message';
 
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+import { FsAutocompleteComponent as FsAutocompleteComponent_1 } from '../../../../src/app/components/autocomplete/autocomplete.component';
+import { FormsModule } from '@angular/forms';
+import { FsAutocompleteTemplateDirective } from '../../../../src/app/directives/autocomplete-template/autocomplete-template.directive';
+import { FsBadgeModule } from '@firestitch/badge';
+import { FsAutocompleteNoResultsDirective } from '../../../../src/app/directives/no-results-template/no-results-template.directive';
+import { MatOption } from '@angular/material/core';
+import { FsAutocompleteStaticDirective } from '../../../../src/app/directives/autocomplete-static/autocomplete-static.directive';
+import { FsAutocompletePrefixDirective } from '../../../../src/app/directives/autocomplete-prefix/autocomplete-prefix.directive';
+import { MatIcon } from '@angular/material/icon';
+import { FsAutocompleteHintDirective } from '../../../../src/app/directives/autocomplete-hint/autocomplete-hint.directive';
+import { MatButton } from '@angular/material/button';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
-  selector: 'autocomplete-example',
-  templateUrl: './autocomplete-example.component.html',
-  styleUrls: ['./autocomplete-example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'autocomplete-example',
+    templateUrl: './autocomplete-example.component.html',
+    styleUrls: ['./autocomplete-example.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsAutocompleteComponent_1,
+        FormsModule,
+        FsAutocompleteTemplateDirective,
+        FsBadgeModule,
+        FsAutocompleteNoResultsDirective,
+        MatOption,
+        FsAutocompleteStaticDirective,
+        FsAutocompletePrefixDirective,
+        MatIcon,
+        FsAutocompleteHintDirective,
+        MatButton,
+        JsonPipe,
+    ],
 })
 export class AutocompleteExampleComponent implements OnInit {
 
