@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
 
 import { FsAutocompleteComponent } from '@firestitch/autocomplete';
 import { FsMessage } from '@firestitch/message';
@@ -41,6 +41,9 @@ import { JsonPipe } from '@angular/common';
     ],
 })
 export class AutocompleteExampleComponent implements OnInit {
+  private _message = inject(FsMessage);
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   @ViewChild(FsAutocompleteComponent, { static: true })
   public autocomplete: FsAutocompleteComponent;
@@ -60,11 +63,6 @@ export class AutocompleteExampleComponent implements OnInit {
     { name: 'Sally', value: 4, image: 'https://randomuser.me/api/portraits/women/90.jpg' },
     { name: 'Howard', value: 4, image: 'https://randomuser.me/api/portraits/men/99.jpg' },
   ];
-
-  constructor(
-    private _message: FsMessage,
-    private _cdRef: ChangeDetectorRef,
-  ) { }
 
   public ngOnInit() {
     this.model = this._list[0];

@@ -1,22 +1,4 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component,
-  ContentChild,
-  ContentChildren,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  QueryList,
-  SimpleChanges,
-  TemplateRef,
-  ViewChild,
-  forwardRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel, FormsModule } from '@angular/forms';
 
 import {
@@ -72,6 +54,9 @@ import { MatOption } from '@angular/material/core';
     ],
 })
 export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
+  private _cdRef = inject(ChangeDetectorRef);
+  private _elRef = inject(ElementRef);
+
 
   @ViewChild(MatAutocompleteTrigger, { static: true })
   public autocompleteTrigger: MatAutocompleteTrigger;
@@ -163,11 +148,6 @@ export class FsAutocompleteComponent implements ControlValueAccessor, OnInit, On
   private _focus: () => void;
   private _onTouched: () => void;
   private _onChange: (value: any) => void;
-
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-    private _elRef: ElementRef,
-  ) { }
 
   public registerOnChange(fn: (value: any) => any): void {
     this._onChange = fn;

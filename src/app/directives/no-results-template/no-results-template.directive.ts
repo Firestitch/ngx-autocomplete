@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef } from '@angular/core';
+import { Directive, Input, TemplateRef, inject } from '@angular/core';
 
 
 @Directive({
@@ -6,14 +6,14 @@ import { Directive, Input, TemplateRef } from '@angular/core';
     standalone: true,
 })
 export class FsAutocompleteNoResultsDirective {
+  templateRef = inject<TemplateRef<any>>(TemplateRef);
+
 
   @Input() public show: (keyword: string) => boolean;
 
   public isShow = true;
 
-  constructor(
-    public templateRef: TemplateRef<any>,
-  ) {
+  constructor() {
     this.show = (keyword: string) => true;
   }
 }
