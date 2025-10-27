@@ -1,9 +1,11 @@
 <mat-form-field
-    [appearance]="appearance"
-    [class]="formFieldClass">
-  <mat-label *ngIf="placeholder">
-    {{ placeholder }}
-  </mat-label>
+  [appearance]="appearance"
+  [class]="formFieldClass">
+  @if (placeholder) {
+    <mat-label>
+      {{ placeholder }}
+    </mat-label>
+  }
   <input
     #keywordInput
     #keywordNgModel="ngModel"
@@ -22,89 +24,95 @@
     (keydown)="keyDown($event)"
     (keyup)="keyUp($event)"
     [matAutocomplete]="userAutocompleteInput">
-  <div
-      *ngIf="prefix"
+  @if (prefix) {
+    <div
       matPrefix
       class="prefix">
-    <ng-container
-      [ngTemplateOutlet]="prefix"
-      [ngTemplateOutletContext]="{ data: model }">
-    </ng-container>
-  </div>
-  <div
-      *ngIf="suffix && !disabled"
+      <ng-container
+        [ngTemplateOutlet]="prefix"
+        [ngTemplateOutletContext]="{ data: model }">
+      </ng-container>
+    </div>
+  }
+  @if (suffix && !disabled) {
+    <div
       matSuffix
       class="suffix">
-    <ng-container
-      [ngTemplateOutlet]="suffix"
-      [ngTemplateOutletContext]="{ data: model }">
-    </ng-container>
-  </div>
+      <ng-container
+        [ngTemplateOutlet]="suffix"
+        [ngTemplateOutletContext]="{ data: model }">
+      </ng-container>
+    </div>
+  }
   <mat-autocomplete
-      #userAutocompleteInput="matAutocomplete"
-      [autoActiveFirstOption]="!!keyword"
-      [panelWidth]="panelWidth"
-      (opened)="opened.emit()"
-      (closed)="onClose()"
-      [class]="panelClasses"
-      [displayWith]="display"
-      (optionSelected)="optionSelected($event)">
+    #userAutocompleteInput="matAutocomplete"
+    [autoActiveFirstOption]="!!keyword"
+    [panelWidth]="panelWidth"
+    (opened)="opened.emit()"
+    (closed)="onClose()"
+    [class]="panelClasses"
+    [displayWith]="display"
+    (optionSelected)="optionSelected($event)">
     <div
-        class="options"
-        [ngStyle]="{ 'padding-bottom': (staticDirectivesLength * 48) + 'px' }">
-      <mat-option
-          *ngFor="let item of data"
+      class="options"
+      [ngStyle]="{ 'padding-bottom': (staticDirectivesLength * 48) + 'px' }">
+      @for (item of data; track item) {
+        <mat-option
           [value]="item"
           class="general-option">
-        <ng-container
-          [ngTemplateOutlet]="template"
-          [ngTemplateOutletContext]="{ data: item }">
-        </ng-container>
-      </mat-option>
-      <ng-container *ngIf="noResults">
-        <ng-container *ngIf="noResultsDirective; else noResultsOption">
-          <ng-container *ngIf="noResultsDirective.isShow">
+          <ng-container
+            [ngTemplateOutlet]="template"
+            [ngTemplateOutletContext]="{ data: item }">
+          </ng-container>
+        </mat-option>
+      }
+      @if (noResults) {
+        @if (noResultsDirective) {
+          @if (noResultsDirective.isShow) {
             <ng-template
               [ngTemplateOutlet]="noResultsDirective.templateRef"
               [ngTemplateOutletContext]="{ $implicit: keyword }">
             </ng-template>
-          </ng-container>
-        </ng-container>
-        <ng-template #noResultsOption>
+          }
+        } @else {
           <mat-option
-              disabled
-              class="no-results">
+            disabled
+            class="no-results">
             No results
-            <ng-container *ngIf="keyword">
+            @if (keyword) {
               for "{{ keyword }}"
-            </ng-container>
+            }
           </mat-option>
-        </ng-template>
-      </ng-container>
+        }
+      }
     </div>
-    <ng-container *ngIf="!model && staticDirectives?.length">
+    @if (!model && staticDirectives?.length) {
       <div class="static-templates">
-        <ng-container *ngFor="let staticTemplate of staticDirectives; let i = index">
-          <ng-container *ngIf="staticTemplate.isShow">
+        @for (staticTemplate of staticDirectives; track staticTemplate; let i = $index) {
+          @if (staticTemplate.isShow) {
             <mat-option
-                class="static-option"
-                [value]="{ staticOptionIndex: i, keyword: keyword }"
-                [disabled]="staticTemplate.isDisabled"
-                [ngClass]="{ 'static-option-first': !i }">
+              class="static-option"
+              [value]="{ staticOptionIndex: i, keyword: keyword }"
+              [disabled]="staticTemplate.isDisabled"
+              [ngClass]="{ 'static-option-first': !i }">
               <ng-template
                 [ngTemplateOutlet]="staticTemplate.templateRef"
                 [ngTemplateOutletContext]="{ $implicit: keyword }">
               </ng-template>
             </mat-option>
-          </ng-container>
-        </ng-container>
+          }
+        }
       </div>
-    </ng-container>
+    }
   </mat-autocomplete>
-  <mat-hint *ngIf="hint">
-    {{ hint }}
-  </mat-hint>
-  <mat-hint *ngIf="hintTemplate">
-    <ng-container [ngTemplateOutlet]="hintTemplate"></ng-container>
-  </mat-hint>
+  @if (hint) {
+    <mat-hint>
+      {{ hint }}
+    </mat-hint>
+  }
+  @if (hintTemplate) {
+    <mat-hint>
+      <ng-container [ngTemplateOutlet]="hintTemplate"></ng-container>
+    </mat-hint>
+  }
 </mat-form-field>

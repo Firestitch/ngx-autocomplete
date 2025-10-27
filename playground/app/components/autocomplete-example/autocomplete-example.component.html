@@ -1,63 +1,65 @@
 
-  <fs-autocomplete
-    [fetch]="fetch"
-    [displayWith]="displayWith"
-    [fetchOnFocus]="true"
-    [(ngModel)]="model"
-    placeholder="Autocomplete"
-    (ngModelChange)="modelChange($event)"
-    [required]="true"
-    name="model">
+<fs-autocomplete
+  [fetch]="fetch"
+  [displayWith]="displayWith"
+  [fetchOnFocus]="true"
+  [(ngModel)]="model"
+  placeholder="Autocomplete"
+  (ngModelChange)="modelChange($event)"
+  [required]="true"
+  name="model">
 
-    <ng-template fsAutocompleteTemplate let-data="data">
-      <div class="fs-row.gap-xs">
-        <fs-badge [size]="30" [image]="data.image"></fs-badge>
-        <span>{{ data.name }}</span>
-      </div>
-    </ng-template>
+  <ng-template fsAutocompleteTemplate let-data="data">
+    <div class="fs-row.gap-xs">
+      <fs-badge [size]="30" [image]="data.image"></fs-badge>
+      <span>{{ data.name }}</span>
+    </div>
+  </ng-template>
 
-    <ng-template fsAutocompleteNoResults let-keyword [show]="showResults">
-      <mat-option disabled>
-        Custom No Results for "{{keyword}}"
-      </mat-option>
-    </ng-template>
+  <ng-template fsAutocompleteNoResults let-keyword [show]="showResults">
+    <mat-option disabled>
+      Custom No Results for "{{keyword}}"
+    </mat-option>
+  </ng-template>
 
-    <ng-template fsAutocompleteStatic let-keyword (selected)="customStaticClick($event)">
-      Custom Static {{keyword}}
-    </ng-template>
+  <ng-template fsAutocompleteStatic let-keyword (selected)="customStaticClick($event)">
+    Custom Static {{keyword}}
+  </ng-template>
 
-    <ng-template fsAutocompleteStatic (selected)="staticClick('Cash or Cheque')">
-      Cash or Cheque
-    </ng-template>
+  <ng-template fsAutocompleteStatic (selected)="staticClick('Cash or Cheque')">
+    Cash or Cheque
+  </ng-template>
 
-    <ng-template fsAutocompleteStatic let-keyword (selected)="staticClick($event)" [show]="showJustUse">
-      Just Use "{{keyword}}"
-    </ng-template>
+  <ng-template fsAutocompleteStatic let-keyword (selected)="staticClick($event)" [show]="showJustUse">
+    Just Use "{{keyword}}"
+  </ng-template>
 
-    <ng-template fsAutocompleteStatic let-keyword (selected)="staticClick($event)" [disable]="disableStatic">
-      Disabled
-    </ng-template>
+  <ng-template fsAutocompleteStatic let-keyword (selected)="staticClick($event)" [disable]="disableStatic">
+    Disabled
+  </ng-template>
 
-    <!-- <ng-template fsAutocompleteSuffix let-data="data">
-      <mat-icon
-        *ngIf="data && data.value"
-        (click)="onProceed(data)">launch
-      </mat-icon>
-    </ng-template> -->
+  <!-- <ng-template fsAutocompleteSuffix let-data="data">
+  <mat-icon
+    *ngIf="data && data.value"
+    (click)="onProceed(data)">launch
+  </mat-icon>
+</ng-template> -->
 
-    <ng-template fsAutocompletePrefix let-data="data">
-      <mat-icon class="settings">settings</mat-icon>
-    </ng-template>
+<ng-template fsAutocompletePrefix let-data="data">
+  <mat-icon class="settings">settings</mat-icon>
+</ng-template>
 
-    <ng-template fsAutocompleteHint>
-      Hint
-    </ng-template>
+<ng-template fsAutocompleteHint>
+  Hint
+</ng-template>
 
-  </fs-autocomplete>
+</fs-autocomplete>
 
-  <button mat-raised-button type="button" (click)="focus()">Focus</button>
-  <fieldset *ngIf="model">
+<button mat-raised-button type="button" (click)="focus()">Focus</button>
+@if (model) {
+  <fieldset>
     <legend>Selected</legend>
     {{ model | json }}
   </fieldset>
+}
 

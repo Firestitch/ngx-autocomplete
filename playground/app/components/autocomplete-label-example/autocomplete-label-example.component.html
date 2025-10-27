@@ -1,25 +1,28 @@
 <form>
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        placeholder="Autocomplete with Label"
-        #input="ngModel"
-        [(ngModel)]="user"
-        name="user"
-        [matAutocomplete]="userAutocompleteInput">
-  
-      <mat-autocomplete #userAutocompleteInput="matAutocomplete" [displayWith]="displayFn">
-        <mat-option *ngFor="let item of filteredOptions | async" [value]="item">
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      placeholder="Autocomplete with Label"
+      #input="ngModel"
+      [(ngModel)]="user"
+      name="user"
+      [matAutocomplete]="userAutocompleteInput">
+
+    <mat-autocomplete #userAutocompleteInput="matAutocomplete" [displayWith]="displayFn">
+      @for (item of filteredOptions | async; track item) {
+        <mat-option [value]="item">
           <div class="fs-row.gap-sm">
             <fs-badge [size]="35" shape="circle" [image]="item.avatar"></fs-badge>
             <span>{{ item.name }}</span>
           </div>
         </mat-option>
-      </mat-autocomplete>
-  
-    </mat-form-field>
-  
-    <mat-hint *ngIf="user.value">Selected User: {{ user.name }}, id #{{ user.value }}</mat-hint>
-  </form>
-  
+      }
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+  @if (user.value) {
+    <mat-hint>Selected User: {{ user.name }}, id #{{ user.value }}</mat-hint>
+  }
+</form>
