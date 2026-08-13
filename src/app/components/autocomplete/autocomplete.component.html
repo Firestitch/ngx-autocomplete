@@ -55,6 +55,7 @@
       <mat-option
           *ngFor="let item of data"
           [value]="item"
+          (mousedown)="$event.preventDefault()"
           class="general-option">
         <ng-container
           [ngTemplateOutlet]="template"
@@ -90,6 +91,7 @@
                 class="static-option"
                 [value]="{ staticOptionIndex: i, keyword: keyword }"
                 [disabled]="staticTemplate.isDisabled"
+                (mousedown)="$event.preventDefault()"
                 [ngClass]="{ 'static-option-first': !i }">
               <ng-template
                 [ngTemplateOutlet]="staticTemplate.templateRef"
