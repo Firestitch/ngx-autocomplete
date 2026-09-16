@@ -7,12 +7,16 @@
     }
   }
 
+  // The footer sits OVER the scrolling options, so its ground must be opaque
+  // and must match the panel -- a hardcoded #fff was a white bar across the
+  // bottom of a dark dropdown. Mirrors @firestitch/autocomplete-chips, which
+  // draws the same footer.
   .static-templates {
     position: absolute;
     bottom: 0;
     width: 100%;
-    background: #fff;
-    border-top: 1px solid #e0e0e0;
+    background: var(--fs-surface-background, #fff);
+    border-top: 1px solid var(--fs-hairline, #e0e0e0);
   }
 
   &.mat-autocomplete-hidden {
